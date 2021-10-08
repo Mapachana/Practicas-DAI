@@ -89,4 +89,10 @@ def cadena():
 def comprobar_regex(exp):
     pass
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return "La has liado, esto es un 404, revisa la URL", 404
+
+
+
 
