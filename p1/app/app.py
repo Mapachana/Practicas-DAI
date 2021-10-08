@@ -1,6 +1,7 @@
 #./app/app.py
 from flask import Flask
 import random
+import math
 
 app = Flask(__name__)
           
@@ -15,19 +16,15 @@ def prueba():
 
 # Function to convert a list to string
 def listToString(s): 
-    
-    # initialize an empty string
     str1 = "" 
-    
-    # traverse in the string  
+     
     for ele in s: 
         str1 += str(ele)
         str1 += " "
     
-    # return string  
     return str1 
 
-# Asumo que ala lista se pasa como 1-2-3-5
+# Asumo que la lista se pasa como 1-2-3-5
 @app.route('/ordena/<lista>')
 def burbuja(lista):
     vector = lista.split('-')
@@ -43,3 +40,23 @@ def burbuja(lista):
 
     res = listToString(vector)
     return res
+
+@app.route('/erastotenes/<num>')
+def erastotenes(num):
+    num = int(num)
+    long = int(math.sqrt(num))+1
+
+    vec = [False for i in range(0, num)]
+    vector_resultado = []
+
+    for i in range(2, long):
+        for j in range(i, int(num/i)+1):
+            if (i*j) < num:
+                vec[i*j] = True
+
+    for i in range(2, num):
+        if not vec[i]:
+            vector_resultado.append(i)
+    res = listToString(vector_resultado)
+    return res
+
