@@ -60,3 +60,33 @@ def erastotenes(num):
     res = listToString(vector_resultado)
     return res
 
+# FUncion de Fibonacci de un numero dado
+def fibonacci(n):
+    if(n == 0):
+        return 0
+    if(n == 1):
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+@app.route('/fibonacci/<fichero>')
+def fibonacci_file(fichero):
+    fichero_r = open(fichero, "r")
+    n = int(fichero_r.read())
+    fichero_r.close()
+
+    salida = open("salida.txt", "w")
+    salida.write(str(fibonacci(n)))
+    salida.close()
+
+    return "Se ha escrito el fichero"
+
+@app.route('/cadena')
+def cadena():
+    pass
+
+@app.route('/regex/<exp>')
+def comprobar_regex(exp):
+    pass
+
+
