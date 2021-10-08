@@ -1,5 +1,5 @@
 #./app/app.py
-from flask import Flask
+from flask import Flask, render_template
 import random
 import math
 
@@ -92,6 +92,10 @@ def comprobar_regex(exp):
 @app.errorhandler(404)
 def page_not_found(e):
     return "La has liado, esto es un 404, revisa la URL", 404
+
+@app.route('/figuras')
+def figuras():
+    return render_template('figuras.html')
 
 
 
