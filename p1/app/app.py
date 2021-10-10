@@ -3,6 +3,8 @@ from flask import Flask, render_template
 import random
 import math
 
+import funciones
+
 app = Flask(__name__)
           
 @app.route('/')
@@ -13,16 +15,6 @@ def hello_world():
 @app.route('/jaja')
 def prueba():
     return 'Esto es una prueba'
-
-# Function to convert a list to string
-def listToString(s): 
-    str1 = "" 
-     
-    for ele in s: 
-        str1 += str(ele)
-        str1 += " "
-    
-    return str1 
 
 # Asumo que la lista se pasa como 1-2-3-5
 @app.route('/ordena/<lista>')
@@ -38,7 +30,7 @@ def burbuja(lista):
                 vector[i] = vector[j]
                 vector[j] = aux
 
-    res = listToString(vector)
+    res = funciones.listToString(vector)
     return res
 
 @app.route('/erastotenes/<num>')
@@ -57,17 +49,8 @@ def erastotenes(num):
     for i in range(2, num):
         if not vec[i]:
             vector_resultado.append(i)
-    res = listToString(vector_resultado)
+    res = funciones.listToString(vector_resultado)
     return res
-
-# FUncion de Fibonacci de un numero dado
-def fibonacci(n):
-    if(n == 0):
-        return 0
-    if(n == 1):
-        return 1
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
 
 @app.route('/fibonacci/<fichero>')
 def fibonacci_file(fichero):
@@ -76,18 +59,68 @@ def fibonacci_file(fichero):
     fichero_r.close()
 
     salida = open("salida.txt", "w")
-    salida.write(str(fibonacci(n)))
+    salida.write(str(funciones.fibonacci(n)))
     salida.close()
 
     return "Se ha escrito el fichero"
 
-@app.route('/cadena')
-def cadena():
-    pass
+@app.route('/cadena/<n>')
+def cadena(n):
+    n = int(n)
+    vec = [random.randint(0,2) for i in range(0,n)]
+    res = ""
+
+    for i in range(0,n):
+        if vec[i] == 0:
+            vec[i] = "["
+        else:
+            vec[i] = "]"
+
+    res = res + "<p> La cadena generada es " + funciones.listToString(vec) + "</p>"
+
+    contador = 0
+    valido = True
+    for i in range(0,n):
+        if vec[i] == "[":
+            contador = contador + 1
+        else:
+            contador = contador -1
+        
+        if contador < 0:
+            valido = False
+
+    if contador > 0:
+        valido = False
+
+    if valido:
+        res = res + "<p> Cadena válida </p>"
+    else:
+        res = res + "<p> Cadena NO válida </p>"
+
+    return res
+
 
 @app.route('/regex/<exp>')
 def comprobar_regex(exp):
-    pass
+    res = ""
+    if funciones.validar_nombre(exp):
+        res = res + "<p>" + exp + " es un nombre"
+    else:
+        res = res + "<p>" + exp + " NO es un nombre"
+
+    if funciones.validar_email(exp):
+        res = res + "<p>" + exp + " es un email"
+    else:
+        res = res + "<p>" + exp + " NO es un email"
+
+    if funciones.validar_tarjeta(exp):
+        res = res + "<p>" + exp + " es una tarjeta"
+    else:
+        res = res + "<p>" + exp + " NO es una tarjeta"
+
+    return res
+    
+
 
 @app.errorhandler(404)
 def page_not_found(e):
