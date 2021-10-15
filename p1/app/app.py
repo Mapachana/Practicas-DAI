@@ -9,12 +9,7 @@ app = Flask(__name__)
           
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
-
-
-@app.route('/jaja')
-def prueba():
-    return 'Esto es una prueba'
+    return '<p>Hello, World!</p> <p> Una lista de urls interesantes son:</p><ul><li>localhost:5000/ordena/3-2-4</li><li>localhost:5000/erastotenes/5</li><li>localhost:5000/fibonacci/numero.txt</li><li>localhost:5000/cadena/10</li><li>localhost:5000/regex/ana@correo.es</li><li>localhost:5000/figuras</li></ul>'
 
 # Asumo que la lista se pasa como 1-2-3-5
 @app.route('/ordena/<lista>')
