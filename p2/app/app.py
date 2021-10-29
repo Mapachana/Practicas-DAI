@@ -1,6 +1,8 @@
 #./app/app.py
 from flask import Flask, render_template, request, redirect
 
+import modelo 
+
 app = Flask(__name__)
           
 @app.route('/')
@@ -10,11 +12,13 @@ def hello_world():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    
     if request.method == 'POST':
-        if request.form['username'] != 'prueba':
-            error = 'Invalid credentials'
-        else:
+        if modelo.comprobar_login(request.form['username'], request.form['password']):
             return redirect('/')
+        else:
+            error = "Los datos introducidos no son validos"
+    
     return render_template('login.html')
 
 @app.errorhandler(404)
