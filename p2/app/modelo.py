@@ -27,11 +27,11 @@ def sign_up(username, password):
 
 
 # Añado usuarios de prueba
-database["prueba"] = "prueba"
+database["prueba"] = "prueba_c"
 
 
 # Codigo de comprobacion
-if comprobar_login("prueba", "prueba"):
+if comprobar_login("prueba", "prueba_c"):
     print("jaja si funciono")
 else:
     print("no")
@@ -41,7 +41,7 @@ if comprobar_login("prueba", "prueba_contra"):
 else:
     print("si funciono")
 
-if comprobar_login("pruebaa", "prueba"):
+if comprobar_login("pruebaa", "prueba_c"):
     print("jaja no funciono")
 else:
     print("ole ole")
