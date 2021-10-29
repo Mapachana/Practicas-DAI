@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block contenido %}
+<h2> ESTOY USANDO PLANTILLAS</h2>
+
+<form method=POST>
+  <label>Nombre de usuario</label><br>
+  <input type="text" name="username"><br>
+  <label>Contraseña</label><br>
+  <input type="text" name="password"><br>
+  <input type=submit value=Login>
+</form>
+
+{% endblock %}
