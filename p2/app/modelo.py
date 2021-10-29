@@ -8,9 +8,7 @@ def comprobar_login(username, password):
     '''Comprueba si un usuario y contraseña existen en la base de datos y son correctos (devuelve True o False)'''
 
     if database.keys(username):
-        passw_key = username + "_c"
-
-        if database[passw_key] == password:
+        if database[username] == password:
             return True
         else:
             return False
@@ -21,9 +19,7 @@ def sign_up(username, password):
     if database.keys(username):
         return False
     else:
-        passw_key = username + "_c"
-        database[username] = username
-        database[passw_key] = password
+        database[username] = password
 
         return True
 
