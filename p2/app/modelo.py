@@ -28,7 +28,6 @@ def sign_up(username, password):
 
 # Añado usuarios de prueba
 database["prueba"] = "prueba"
-database["prueba_c"] = "prueba"
 
 
 # Codigo de comprobacion
