@@ -1,14 +1,14 @@
-{% extends "index.html" %}
+{% extends "parent.html" %}
 
 
-  {% block nombreuser scoped %}
+  {% block nombreuser %}
     {% if username is defined and username|length %}
       {{ username }}
     {% else %}
       {{ super() }}
     {% endif %}
   {% endblock %}
-  
+
 
 {% block contenido %}
 <h2> ESTOY USANDO PLANTILLAS</h2>

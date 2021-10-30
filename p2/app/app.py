@@ -27,7 +27,7 @@ def login():
             session['username'] = aux
             print("entro aqui y vale")
             print(session['username'])
-            return redirect('/login')
+            return redirect('/')
         else:
             error = "Los datos introducidos no son validos"
     if 'username' in session:
