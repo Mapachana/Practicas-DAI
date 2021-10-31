@@ -112,6 +112,32 @@
           </li>
         </ul>
         <hr>
+
+        <h5>Lista de páginas visitadas últimamente</h5>
+        <ul class="nav nav-pills flex-column mb-auto">
+          {% block ultimaspaginas %}
+          <p>No hay información disponible </p>
+          {% endblock %}
+          <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+              Orders
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+              Products
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+              Customers
+            </a>
+          </li>
+        </ul>
+        <hr>
         <!--<div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://avatars.githubusercontent.com/u/32956016?v=4" alt="" width="32" height="32" class="rounded-circle me-2">
@@ -180,6 +206,7 @@
         </a>
       </section>
       <!-- Section: Social media -->
+
   
       <!-- Section: Text -->
       <section class="mb-4">

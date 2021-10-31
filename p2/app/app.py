@@ -1,5 +1,6 @@
 #./app/app.py
 from flask import Flask, render_template, request, redirect, session
+from flask.wrappers import Request
 
 import modelo 
 
@@ -13,7 +14,11 @@ def hello_world():
         nombre = session['username']
     else:
         nombre = ''
-    return render_template('index.html', username=nombre)
+    if 'ultimas_paginas' in session:
+        pags = session['ultimas_paginas']
+    else:
+        pags = []
+    return render_template('index.html', username=nombre, ultimaspaginas=pags)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,10 +53,26 @@ def logout():
 def page_not_found(e):
     return "La has liado, esto es un 404, revisa la URL", 404
 
-@app.route('/figuras')
-def figuras():
-    return render_template('figuras.html')
+@app.before_request
+def guardar_paginas_visitadas():
+    num_paginas = 3
+    if 'ultimas_paginas' in session:
+        pass
+    else:
+        session['ultimas_paginas'] = []
 
+    print(len(session['ultimas_paginas']))
+
+    if len(session['ultimas_paginas']) < num_paginas:
+        aux = session['ultimas_paginas']
+        aux.append(Request.url)
+        session['ultimas_paginas'] = aux
+    else:
+        for i in range(1,num_paginas):
+            session['ultimas_paginas'][i] = session['ultimas_paginas'][i-1]
+        session['ultimas_paginas'][0] = request.url
+
+    print(session['ultimas_paginas'])
 
 
 

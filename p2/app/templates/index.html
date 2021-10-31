@@ -9,6 +9,24 @@
     {% endif %}
   {% endblock %}
   
+{% block ultimaspaginas %}
+
+  {% if ultimas_paginas is defined %}
+    {% for pagina in ultimas_paginas %}
+    <li>
+      <a href="{{ pagina }}" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+        {{ pagina }}
+      </a>
+    </li>
+    {% endfor %}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+
+
+{% endblock %}
+
 
 {% block contenido %}
 <h2> ESTO ES HOME</h2>
