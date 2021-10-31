@@ -63,7 +63,7 @@ def guardar_paginas_visitadas():
 
     print(len(session['ultimas_paginas']))
 
-    if len(session['ultimas_paginas']) < num_paginas:
+    '''if len(session['ultimas_paginas']) < num_paginas:
         aux = session['ultimas_paginas']
         aux.append(Request.url)
         session['ultimas_paginas'] = aux
@@ -72,7 +72,12 @@ def guardar_paginas_visitadas():
             session['ultimas_paginas'][i] = session['ultimas_paginas'][i-1]
         session['ultimas_paginas'][0] = request.url
 
-    print(session['ultimas_paginas'])
+    print(session['ultimas_paginas']'''
+
+
+
+
+
 
 
 
