@@ -4,6 +4,7 @@ from flask.wrappers import Request
 
 import modelo 
 
+
 app = Flask(__name__)
 app.secret_key = 'esto-es-una-clave-muy-secreta'
 
@@ -14,10 +15,11 @@ def hello_world():
         nombre = session['username']
     else:
         nombre = ''
+
     if 'ultimas_paginas' in session:
         pags = session['ultimas_paginas']
     else:
-        pags = []
+        pags = ['prueba', 'prueba2', 'prueba3']
     return render_template('index.html', username=nombre, ultimaspaginas=pags)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,14 +37,21 @@ def login():
             return redirect('/')
         else:
             error = "Los datos introducidos no son validos"
+
     if 'username' in session:
         nombre = session['username']
         print(nombre)
     else:
         nombre = ''
+
+    if 'ultimas_paginas' in session:
+        pags = session['ultimas_paginas']
+    else:
+        pags = ['prueba', 'prueba2', 'prueba3']
+
     print(nombre)
 
-    return render_template('login.html', username=nombre)
+    return render_template('login.html', username=nombre, ultimaspaginas=pags)
 
 @app.route('/logout')
 def logout():
@@ -59,23 +68,17 @@ def guardar_paginas_visitadas():
     if 'ultimas_paginas' in session:
         pass
     else:
-        session['ultimas_paginas'] = []
+        session['ultimas_paginas'] = [''] * num_paginas 
 
-    print(len(session['ultimas_paginas']))
-
-    '''if len(session['ultimas_paginas']) < num_paginas:
+    if request.path != "/favicon.ico" and request.method == "GET":
         aux = session['ultimas_paginas']
-        aux.append(Request.url)
+
+        for i in range(num_paginas-1, 0, -1):
+            aux[i] = aux[i-1]
+
+        aux[0] = request.url
+
         session['ultimas_paginas'] = aux
-    else:
-        for i in range(1,num_paginas):
-            session['ultimas_paginas'][i] = session['ultimas_paginas'][i-1]
-        session['ultimas_paginas'][0] = request.url
-
-    print(session['ultimas_paginas']'''
-
-
-
 
 
 
