@@ -26,6 +26,7 @@ class Database:
             return True
 
     def get_user(self, username):
+        '''Devuelve los datos almacenados sobre un usuario concreto'''
         return self.database[username]
 
     def actualizar_user(self, username, nombre, password):

@@ -15,9 +15,14 @@ app.secret_key = 'esto-es-una-clave-muy-secreta'
 def hello_world():
     argumentos = {}
     argumentos['error'] = ""
+    db = modelo.Database()
 
     if 'username' in session:
         argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+
     else:
         argumentos['username'] = ''
 
@@ -64,12 +69,16 @@ def signup():
     db = modelo.Database()
     
     if 'username' in session:
-            return redirect("./")
+            return redirect("/")
     else:
 
         if request.method == 'POST':
-            if db.sign_up(request.form['username'], request.form['name'], request.form['password']):
-                session['username'] = request.form['username']
+            if request.form['username'] != '' and request.form['name'] != '' and request.form['password'] != '':
+                if db.sign_up(request.form['username'], request.form['name'], request.form['password']):
+                    session['username'] = request.form['username']
+                    return redirect("/")
+                else:
+                    argumentos['error'] = "Todos los campos deben estar rellenos"
 
         if 'username' in session:
             argumentos['username'] = session['username']
@@ -94,10 +103,11 @@ def perfil():
     if 'username' in session:
     
         if request.method == 'POST':
-            if 'username' in session:
+            if request.form['name'] != '' and request.form['password'] != '':
                 db.actualizar_user(session['username'], request.form['name'], request.form['password'])
+                return redirect("/")
             else:
-                argumentos['error'] = "Los datos introducidos no son validos"
+                argumentos['error'] = "Todos los campos deben estar rellenos"
     else:
         return redirect("/login")
 
@@ -112,7 +122,6 @@ def perfil():
         argumentos['ultimaspaginas'] = []
 
     return render_template('perfil.html', **argumentos)
-
 
 
 @app.route('/logout')
@@ -193,19 +202,6 @@ def erastotenes():
     return render_template('erastotenes.html', **argumentos)
 
 
-@app.route('/fibonacci/<fichero>')
-def fibonacci_file(fichero):
-    fichero_r = open(fichero, "r")
-    n = int(fichero_r.read())
-    fichero_r.close()
-
-    salida = open("salida.txt", "w")
-    salida.write(str(funciones.fibonacci(n)))
-    salida.close()
-
-    return "Se ha escrito el fichero"
-
-
 @app.route('/cadena', methods=['GET', 'POST'])
 def cadena():
     argumentos = {}
@@ -229,7 +225,22 @@ def cadena():
 
     return render_template('erastotenes.html', **argumentos)
 
+'''
+PRACTICA 1
+'''
 
+
+@app.route('/fibonacci/<fichero>')
+def fibonacci_file(fichero):
+    fichero_r = open(fichero, "r")
+    n = int(fichero_r.read())
+    fichero_r.close()
+
+    salida = open("salida.txt", "w")
+    salida.write(str(funciones.fibonacci(n)))
+    salida.close()
+
+    return "Se ha escrito el fichero"
 
 @app.route('/regex/<exp>')
 def comprobar_regex(exp):
