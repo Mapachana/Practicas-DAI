@@ -23,11 +23,14 @@ def sign_up(username, password):
 
         return True
 
+def get_user(username):
+    return database[username]
+
 def actualizar_user(username, nombre, password):
     '''Actualiza los datos de un usuario'''
     respuesta = []
     if database.keys(username):
-        database['username'] = password
+        database[username] = password
 
 
         return True

@@ -64,10 +64,6 @@ def perfil():
     if request.method == 'POST':
         if 'username' in session:
             aux = session['username']
-            session['username'] = aux
-            print("entro aqui y vale")
-            print(session['username'])
-            return redirect('/')
         else:
             argumentos['error'] = "Los datos introducidos no son validos"
 
@@ -82,7 +78,7 @@ def perfil():
         argumentos['ultimaspaginas'] = []
 
 
-    return render_template('login.html', **argumentos)
+    return render_template('perfil.html', **argumentos)
 
 
 @app.route('/logout')
