@@ -2,15 +2,15 @@
 
 
 {% block contenido %}
-<h2> ESTOY USANDO PLANTILLAS</h2>
+<h2> PERFIL</h2>
 
 <label>Nombre de usuario {{ username }} </label>
 <form method=POST>
   <label>Nombre</label><br>
-  <input type="text" name="name"><br>
+  <input type="text" name="name", value = {{ name }}><br>
   <label>Contraseña</label><br>
   <input type="password" name="password"><br>
-  <input type=submit value="Cambiar datos">
+  <input type=submit value="Cambiar datos", value = {{ password }}>
 </form>
 
 {% if error is defined and error|length %}

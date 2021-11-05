@@ -101,7 +101,11 @@ def perfil():
     db = modelo.Database()
 
     if 'username' in session:
-    
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+        argumentos['password'] = datos_usuario['password']
+
         if request.method == 'POST':
             if request.form['name'] != '' and request.form['password'] != '':
                 db.actualizar_user(session['username'], request.form['name'], request.form['password'])
