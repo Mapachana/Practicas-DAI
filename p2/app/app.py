@@ -3,8 +3,6 @@ from flask import Flask, render_template, request, redirect, session
 from flask.wrappers import Request
 
 import funciones
-import random
-import math
 
 import modelo 
 
@@ -58,6 +56,35 @@ def login():
 
     return render_template('login.html', **argumentos)
 
+@app.route('/perfil', methods=['GET', 'POST'])
+def perfil():
+    argumentos = {}
+    argumentos['error'] = ""
+    
+    if request.method == 'POST':
+        if 'username' in session:
+            aux = session['username']
+            session['username'] = aux
+            print("entro aqui y vale")
+            print(session['username'])
+            return redirect('/')
+        else:
+            argumentos['error'] = "Los datos introducidos no son validos"
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
+
+
+    return render_template('login.html', **argumentos)
+
+
 @app.route('/logout')
 def logout():
     session.clear()
@@ -88,7 +115,6 @@ def guardar_paginas_visitadas():
 
 @app.route('/ordena', methods=['GET', 'POST'])
 def burbuja():
-    error = None
     argumentos = {}
     argumentos['error'] = ""
     argumentos['respuesta'] = ""
@@ -113,24 +139,29 @@ def burbuja():
     return render_template('ordena.html', **argumentos)
 
 
-@app.route('/erastotenes/<num>')
-def erastotenes(num):
-    num = int(num)
-    long = int(math.sqrt(num))+1
+@app.route('/erastotenes', methods=['GET', 'POST'])
+def erastotenes():
+    argumentos = {}
+    argumentos['error'] = ""
+    argumentos['respuesta'] = ""
+    
+    if request.method == 'POST':
+        if request.form['numero'] != '':
+            lista = request.form['numero']
+            argumentos['respuesta'] = funciones.erastotenes(lista)
 
-    vec = [False for i in range(0, num)]
-    vector_resultado = []
+    if 'username' in session:
+        argumentos['username'] = session['username']
+    else:
+        argumentos['username'] = ''
 
-    for i in range(2, long):
-        for j in range(i, int(num/i)+1):
-            if (i*j) < num:
-                vec[i*j] = True
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
 
-    for i in range(2, num):
-        if not vec[i]:
-            vector_resultado.append(i)
-    res = funciones.listToString(vector_resultado)
-    return res
+    return render_template('erastotenes.html', **argumentos)
+
 
 @app.route('/fibonacci/<fichero>')
 def fibonacci_file(fichero):
@@ -144,40 +175,30 @@ def fibonacci_file(fichero):
 
     return "Se ha escrito el fichero"
 
-@app.route('/cadena/<n>')
-def cadena(n):
-    n = int(n)
-    vec = [random.randint(0,2) for i in range(0,n)]
-    res = ""
 
-    for i in range(0,n):
-        if vec[i] == 0:
-            vec[i] = "["
-        else:
-            vec[i] = "]"
+@app.route('/cadena', methods=['GET', 'POST'])
+def cadena():
+    argumentos = {}
+    argumentos['error'] = ""
+    argumentos['respuesta'] = ""
+    
+    if request.method == 'POST':
+        if request.form['numero'] != '':
+            lista = request.form['numero']
+            argumentos['respuesta'] = funciones.cadena(lista)
 
-    res = res + "<p> La cadena generada es " + funciones.listToString(vec) + "</p>"
-
-    contador = 0
-    valido = True
-    for i in range(0,n):
-        if vec[i] == "[":
-            contador = contador + 1
-        else:
-            contador = contador -1
-        
-        if contador < 0:
-            valido = False
-
-    if contador > 0:
-        valido = False
-
-    if valido:
-        res = res + "<p> Cadena válida </p>"
+    if 'username' in session:
+        argumentos['username'] = session['username']
     else:
-        res = res + "<p> Cadena NO válida </p>"
+        argumentos['username'] = ''
 
-    return res
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
+
+    return render_template('erastotenes.html', **argumentos)
+
 
 
 @app.route('/regex/<exp>')

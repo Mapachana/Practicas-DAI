@@ -1,5 +1,7 @@
 import re
 from typing import Pattern
+import math
+import random
 
 # Function to convert a list to string
 def listToString(s): 
@@ -57,4 +59,58 @@ def burbuja(lista):
                 vector[j] = aux
 
     res = listToString(vector)
+    return res
+
+# Funcion para hacer la funcion de erastotenes
+def erastotenes(num):
+    num = int(num)
+    long = int(math.sqrt(num))+1
+
+    vec = [False for i in range(0, num)]
+    vector_resultado = []
+
+    for i in range(2, long):
+        for j in range(i, int(num/i)+1):
+            if (i*j) < num:
+                vec[i*j] = True
+
+    for i in range(2, num):
+        if not vec[i]:
+            vector_resultado.append(i)
+    res = listToString(vector_resultado)
+    return res
+
+# Funcion para hacer la funcion de validar cadenas
+def cadena(n):
+    n = int(n)
+    vec = [random.randint(0,2) for i in range(0,n)]
+    res = ""
+
+    for i in range(0,n):
+        if vec[i] == 0:
+            vec[i] = "["
+        else:
+            vec[i] = "]"
+
+    res = res + "La cadena generada es " + listToString(vec)
+
+    contador = 0
+    valido = True
+    for i in range(0,n):
+        if vec[i] == "[":
+            contador = contador + 1
+        else:
+            contador = contador -1
+        
+        if contador < 0:
+            valido = False
+
+    if contador > 0:
+        valido = False
+
+    if valido:
+        res = res + "Cadena válida"
+    else:
+        res = res + "Cadena NO válida"
+
     return res
