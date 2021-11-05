@@ -133,6 +133,7 @@ def logout():
 def page_not_found(e):
     return "La has liado, esto es un 404, revisa la URL", 404
 
+# Función para guardar cada peticion en la lista de ultimas paginas visitadas
 @app.before_request
 def guardar_paginas_visitadas():
     num_paginas = 3
