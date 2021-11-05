@@ -40,7 +40,7 @@ def login():
     db = modelo.Database()
     
     if request.method == 'POST':
-        if db.comprobar_login(request.form['username'], request.form['password']):
+        if request.form['username'] != "" and request.form['password'] and db.comprobar_login(request.form['username'], request.form['password']):
             aux = request.form['username']
             session['username'] = aux
             print("entro aqui y vale")
@@ -78,7 +78,7 @@ def signup():
                     session['username'] = request.form['username']
                     return redirect("/")
                 else:
-                    argumentos['error'] = "Todos los campos deben estar rellenos"
+                    argumentos['error'] = "Todos los campos deben estar rellenos o el usuario ya existe"
 
         if 'username' in session:
             argumentos['username'] = session['username']
