@@ -39,3 +39,22 @@ def validar_email(texto):
 def validar_tarjeta(texto):
     res = re.match(p_tarjeta, texto)
     return res
+
+# Funcion para ordenar un string dado como numeros separados por guiones tal que 4-2-3
+def burbuja(lista):
+    vector = lista.split('-')
+    for i in range(len(vector)):
+        if vector[i] != '':
+            vector[i] = int(vector[i])
+        else:
+            vector[i] = 0
+
+    for i in range(len(vector)):
+        for j in range(len(vector)):
+            if vector[i] < vector[j]:
+                aux = vector[i]
+                vector[i] = vector[j]
+                vector[j] = aux
+
+    res = listToString(vector)
+    return res
