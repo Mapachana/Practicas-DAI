@@ -15,22 +15,25 @@ app.secret_key = 'esto-es-una-clave-muy-secreta'
           
 @app.route('/')
 def hello_world():
+    argumentos = {}
+    argumentos['error'] = ""
+
     if 'username' in session:
-        nombre = session['username']
+        argumentos['username'] = session['username']
     else:
-        nombre = ''
+        argumentos['username'] = ''
 
     if 'ultimas_paginas' in session:
-        pags = session['ultimas_paginas']
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
     else:
-        pags = ['prueba', 'prueba2', 'prueba3']
-    return render_template('index.html', username=nombre, ultimaspaginas=pags)
+        argumentos['ultimaspaginas'] = []
+
+    return render_template('index.html', **argumentos)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
-    nombre = ""
-    print("PRINT FUNCIONA")
+    argumentos = {}
+    argumentos['error'] = ""
     
     if request.method == 'POST':
         if modelo.comprobar_login(request.form['username'], request.form['password']):
@@ -40,22 +43,20 @@ def login():
             print(session['username'])
             return redirect('/')
         else:
-            error = "Los datos introducidos no son validos"
+            argumentos['error'] = "Los datos introducidos no son validos"
 
     if 'username' in session:
-        nombre = session['username']
-        print(nombre)
+        argumentos['username'] = session['username']
     else:
-        nombre = ''
+        argumentos['username'] = ''
 
     if 'ultimas_paginas' in session:
-        pags = session['ultimas_paginas']
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
     else:
-        pags = ['prueba', 'prueba2', 'prueba3']
+        argumentos['ultimaspaginas'] = []
 
-    print(nombre)
 
-    return render_template('login.html', username=nombre, ultimaspaginas=pags)
+    return render_template('login.html', **argumentos)
 
 @app.route('/logout')
 def logout():
@@ -88,26 +89,27 @@ def guardar_paginas_visitadas():
 @app.route('/ordena', methods=['GET', 'POST'])
 def burbuja():
     error = None
-    nombre = ""
-    res = ""
+    argumentos = {}
+    argumentos['error'] = ""
     
     if request.method == 'POST':
         if request.form['lista'] != '':
             lista = request.form['lista']
-            res = funciones.burbuja(lista)
+            argumentos['respuesta'] = funciones.burbuja(lista)
 
     if 'username' in session:
-        nombre = session['username']
+        argumentos['username'] = session['username']
     else:
-        nombre = ''
+        argumentos['username'] = ''
 
     if 'ultimas_paginas' in session:
-        pags = session['ultimas_paginas']
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
     else:
-        pags = ['prueba', 'prueba2', 'prueba3']
+        argumentos['ultimaspaginas'] = []
 
 
-    return render_template('ordena.html', username=nombre, ultimaspaginas=pags, respuesta=res)
+
+    return render_template('ordena.html', **argumentos)
 
 
 @app.route('/erastotenes/<num>')

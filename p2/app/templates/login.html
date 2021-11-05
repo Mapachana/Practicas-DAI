@@ -1,32 +1,6 @@
 {% extends "parent.html" %}
 
 
-  {% block nombreuser %}
-    {% if username is defined and username|length %}
-      {{ username }}
-    {% else %}
-      {{ super() }}
-    {% endif %}
-  {% endblock %}
-
-{% block ultimaspaginas %}
-
-  {% if ultimaspaginas is defined %}
-    {% for pagina in ultimaspaginas %}
-    <li>
-      <a href="{{ pagina }}" class="nav-link text-white">
-        {{ pagina }}
-      </a>
-    </li>
-    {% endfor %}
-  {% else %}
-    {{ super() }}
-  {% endif %}
-
-
-{% endblock %}
-
-
 {% block contenido %}
 <h2> ESTOY USANDO PLANTILLAS</h2>
 
@@ -37,5 +11,9 @@
   <input type="text" name="password"><br>
   <input type=submit value=Login>
 </form>
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
 
 {% endblock %}
