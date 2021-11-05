@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, redirect, session
 from flask.wrappers import Request
 
+import funciones
+
 import modelo 
 
 
@@ -79,6 +81,46 @@ def guardar_paginas_visitadas():
         aux[0] = request.url
 
         session['ultimas_paginas'] = aux
+
+
+@app.route('/ordena', methods=['GET', 'POST'])
+def burbuja():
+    error = None
+    nombre = ""
+    res = ""
+    
+    if request.method == 'POST':
+        if request.form['lista'] != '':
+            lista = request.form['lista']
+            vector = lista.split('-')
+            for i in range(len(vector)):
+                if vector[i] != '':
+                    vector[i] = int(vector[i])
+                else:
+                    vector[i] = 0
+
+            for i in range(len(vector)):
+                for j in range(len(vector)):
+                    if vector[i] < vector[j]:
+                        aux = vector[i]
+                        vector[i] = vector[j]
+                        vector[j] = aux
+
+            res = funciones.listToString(vector)
+
+    if 'username' in session:
+        nombre = session['username']
+    else:
+        nombre = ''
+
+    if 'ultimas_paginas' in session:
+        pags = session['ultimas_paginas']
+    else:
+        pags = ['prueba', 'prueba2', 'prueba3']
+
+
+    return render_template('ordena.html', username=nombre, ultimaspaginas=pags, respuesta=res)
+
 
 
 
