@@ -91,6 +91,7 @@ def burbuja():
     error = None
     argumentos = {}
     argumentos['error'] = ""
+    argumentos['respuesta'] = ""
     
     if request.method == 'POST':
         if request.form['lista'] != '':
