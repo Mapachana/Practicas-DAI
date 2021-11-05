@@ -32,9 +32,10 @@ def hello_world():
 def login():
     argumentos = {}
     argumentos['error'] = ""
+    db = modelo.Database()
     
     if request.method == 'POST':
-        if modelo.comprobar_login(request.form['username'], request.form['password']):
+        if db.comprobar_login(request.form['username'], request.form['password']):
             aux = request.form['username']
             session['username'] = aux
             print("entro aqui y vale")
@@ -56,16 +57,49 @@ def login():
 
     return render_template('login.html', **argumentos)
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    argumentos = {}
+    argumentos['error'] = ""
+    db = modelo.Database()
+    
+    if 'username' in session:
+            return redirect("./")
+    else:
+
+        if request.method == 'POST':
+            if db.sign_up(request.form['username'], request.form['name'], request.form['password']):
+                session['username'] = request.form['username']
+
+        if 'username' in session:
+            argumentos['username'] = session['username']
+        else:
+            argumentos['username'] = ''
+
+        if 'ultimas_paginas' in session:
+            argumentos['ultimaspaginas'] = session['ultimas_paginas']
+        else:
+            argumentos['ultimaspaginas'] = []
+
+
+        return render_template('signup.html', **argumentos)
+
+
 @app.route('/perfil', methods=['GET', 'POST'])
 def perfil():
     argumentos = {}
     argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
     
-    if request.method == 'POST':
-        if 'username' in session:
-            aux = session['username']
-        else:
-            argumentos['error'] = "Los datos introducidos no son validos"
+        if request.method == 'POST':
+            if 'username' in session:
+                db.actualizar_user(session['username'], request.form['name'], request.form['password'])
+            else:
+                argumentos['error'] = "Los datos introducidos no son validos"
+    else:
+        return redirect("/login")
 
     if 'username' in session:
         argumentos['username'] = session['username']
@@ -77,8 +111,8 @@ def perfil():
     else:
         argumentos['ultimaspaginas'] = []
 
-
     return render_template('perfil.html', **argumentos)
+
 
 
 @app.route('/logout')

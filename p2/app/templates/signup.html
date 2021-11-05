@@ -7,12 +7,12 @@
 <form method=POST>
   <label>Nombre de usuario</label><br>
   <input type="text" name="username"><br>
+  <label>Nombre</label><br>
+  <input type="text" name="name"><br>
   <label>Contraseña</label><br>
   <input type="text" name="password"><br>
-  <input type=submit value=Login>
+  <input type=submit value="Cambiar datos">
 </form>
-
-<p> Si no tienes cuenta regístrate <a href="/signup">aqui </a></p>
 
 {% if error is defined and error|length %}
   <p>{{ error }}</p>

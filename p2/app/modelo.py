@@ -1,80 +1,47 @@
 from pickleshare import *
 
+
+class Database:
 # Creo base de datos vacía
-database = PickleShareDB('./database')
-database.clear()
+    def __init__(self):
+        self.database = PickleShareDB('./database')
 
-def comprobar_login(username, password):
-    '''Comprueba si un usuario y contraseña existen en la base de datos y son correctos (devuelve True o False)'''
+    def comprobar_login(self, username, password):
+        '''Comprueba si un usuario y contraseña existen en la base de datos y son correctos (devuelve True o False)'''
 
-    if database.keys(username):
-        if database[username] == password:
-            return True
-        else:
+        if self.database.keys(username):
+            if self.database[username]['password'] == password:
+                return True
+            else:
+                return False
+
+    def sign_up(self, username, name, password):
+        '''Añade un usuario y contraseña a la base de datos si no existen de antes (devuelve True o False)'''
+
+        if self.database.keys(username):
             return False
+        else:
+            self.database[username] = {'password': password, 'name': name}
 
-def sign_up(username, password):
-    '''Añade un usuario y contraseña a la base de datos si no existen de antes (devuelve True o False)'''
+            return True
 
-    if database.keys(username):
-        return False
-    else:
-        database[username] = password
+    def get_user(self, username):
+        return self.database[username]
 
-        return True
+    def actualizar_user(self, username, nombre, password):
+        '''Actualiza los datos de un usuario'''
+        if self.database.keys(username):
+            self.database[username]['name'] = nombre
+            self.database[username]['password'] = password
 
-def get_user(username):
-    return database[username]
+            self.database[username] = self.database[username]
 
-def actualizar_user(username, nombre, password):
-    '''Actualiza los datos de un usuario'''
-    respuesta = []
-    if database.keys(username):
-        database[username] = password
-
-
-        return True
-    else:
-        return False
+            return self.database[username]
+        else:
+            return {}
 
 
 
 
 # Añado usuarios de prueba
-database["prueba"] = "prueba_c"
-
-
-# Codigo de comprobacion
-if comprobar_login("prueba", "prueba_c"):
-    print("jaja si funciono")
-else:
-    print("no")
-
-if comprobar_login("prueba", "prueba_contra"):
-    print("no funciono")
-else:
-    print("si funciono")
-
-if comprobar_login("pruebaa", "prueba_c"):
-    print("jaja no funciono")
-else:
-    print("ole ole")
-
-print("PRUEBA REGISTRO")
-
-sign_up("ana", "ana")
-
-if comprobar_login("ana", "ana"):
-    print("jaja si funciono")
-else:
-    print("no")
-
-if comprobar_login("ana", "prueba_contra"):
-    print("no funciono")
-else:
-    print("si funciono")
-
-if comprobar_login("anaa", "ana"):
-    print("jaja no funciono")
-else:
-    print("ole ole")
+#database["prueba"] = "prueba_c"
