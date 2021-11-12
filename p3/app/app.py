@@ -5,8 +5,8 @@ from flask.wrappers import Request
 import funciones
 
 import modelo 
+import modelo_pokemon
 
-from pymongo import MongoClient
 
 app = Flask(__name__)
 app.secret_key = 'esto-es-una-clave-muy-secreta'
@@ -38,13 +38,11 @@ def hello_world():
 Practica 3
 '''
 
-client = MongoClient("mongo", 27017) # Conectar al servicio (docker) "mongo" en su puerto estandar
-db = client.SampleCollections        # Elegimos la base de datos de ejemplo
-
 @app.route('/mongo')
 def mongo():
+    db = modelo_pokemon.DBPokemon()
 	# Encontramos los documentos de la coleccion "samples_friends"
-    episodios = db.samples_pokemon.find() # devuelve un cursor(*), no una lista ni un iterador
+    episodios = db.buscar() # devuelve un cursor(*), no una lista ni un iterador
 
     lista_episodios = []
     for episodio in episodios:
