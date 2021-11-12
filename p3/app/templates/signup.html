@@ -1,0 +1,21 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> SIGN UP</h2>
+
+<form method=POST>
+  <label>Nombre de usuario</label><br>
+  <input type="text" name="username"><br>
+  <label>Nombre</label><br>
+  <input type="text" name="name"><br>
+  <label>Contraseña</label><br>
+  <input type="password" name="password"><br>
+  <input type=submit value="Registrarse">
+</form>
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}

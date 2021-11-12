@@ -1,0 +1,16 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> ESTO ES PARA BUSCAR</h2>
+
+{% if lista_pokemon is defined and lista_pokemon|length %}
+<ul>
+      {% for pokemon in lista_pokemon %}
+            <li>{{pokemon}}</li>
+
+      {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

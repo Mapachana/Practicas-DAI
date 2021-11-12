@@ -1,0 +1,21 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> LOGIN</h2>
+
+<form method=POST>
+  <label>Nombre de usuario</label><br>
+  <input type="text" name="username"><br>
+  <label>Contraseña</label><br>
+  <input type="password" name="password"><br>
+  <input type=submit value=Login>
+</form>
+
+<p> Si no tienes cuenta regístrate <a href="/signup">aqui </a></p>
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}
