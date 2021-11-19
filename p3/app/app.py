@@ -1,5 +1,5 @@
 #./app/app.py
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify
 from flask.wrappers import Request
 
 import funciones
@@ -70,6 +70,21 @@ def mongo():
         return render_template('buscar.html', **argumentos)
 
     return render_template('buscar.html', **argumentos)
+
+@app.route('/create_pokemon', methods=['POST'])
+def add_pokemon():
+    body = request.get_json(force=True)
+    if body is None:
+        return "El cuerpo está vacío", 400
+    
+    #if 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
+    #    return "Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 400
+
+    db = modelo_pokemon.DBPokemon()
+    id = db.add_pokemon(body['name'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
+    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    return jsonify(res)
+
 
 
 '''
