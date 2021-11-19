@@ -38,18 +38,38 @@ def hello_world():
 Practica 3
 '''
 
-@app.route('/mongo')
+@app.route('/mongo', methods=['GET', 'POST'])
 def mongo():
+
+    argumentos = {}
+    argumentos['error'] = ""
+    argumentos['lista_pokemon'] = []
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
+
     db = modelo_pokemon.DBPokemon()
-	# Encontramos los documentos de la coleccion "samples_friends"
-    episodios = db.buscar() # devuelve un cursor(*), no una lista ni un iterador
+	
+    if request.method == 'POST':
+        pokemons = db.buscar(request.form['texto']) # devuelve un cursor(*), no una lista ni un iterador
+        for pokemon in pokemons:
+            argumentos['lista_pokemon'].append(pokemon['name'])
 
-    lista_episodios = []
-    for episodio in episodios:
-        app.logger.debug(episodio) # salida consola
-        lista_episodios.append(episodio['name'])
+        return render_template('buscar.html', **argumentos)
 
-    return render_template('buscar.html', lista_pokemon=lista_episodios)
+    return render_template('buscar.html', **argumentos)
 
 
 '''
