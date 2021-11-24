@@ -1,1 +1,1 @@
-'name=A&img=aa&type=Water&height=1.67&weight=45&candy=Porfa&egg=frito'
+{"name" :"A", "img" :"aa", "type" :"Water", "height" :1.67, "weight" :45, "candy" :"Porfa" "egg" :"frito"}

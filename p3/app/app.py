@@ -65,7 +65,7 @@ def mongo():
     if request.method == 'POST':
         pokemons = db.buscar(request.form['texto']) # devuelve un cursor(*), no una lista ni un iterador
         for pokemon in pokemons:
-            argumentos['lista_pokemon'].append(pokemon['name'])
+            argumentos['lista_pokemon'].append(pokemon['name']+" "+str(pokemon['id']))
 
         return render_template('buscar.html', **argumentos)
 
@@ -74,6 +74,21 @@ def mongo():
 @app.route('/create_pokemon', methods=['POST'])
 def add_pokemon():
     body = request.get_json(force=True)
+    print(body)
+    if body is None:
+        return "El cuerpo está vacío", 400
+    
+    if 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
+        return "Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 400
+
+    db = modelo_pokemon.DBPokemon()
+    id = db.add_pokemon(body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
+    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    return jsonify(res)
+
+@app.route('/modify_pokemon/<id>', methods=['PUT'])
+def modify_pokemon():
+    body = request.get_json(force=True)
     if body is None:
         return "El cuerpo está vacío", 400
     
@@ -81,10 +96,23 @@ def add_pokemon():
     #    return "Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 400
 
     db = modelo_pokemon.DBPokemon()
-    id = db.add_pokemon(body['name'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
+    id = db.modify_pokemon(body['name'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
     res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
     return jsonify(res)
 
+@app.route('/pokemon/<id>', methods=['DELETE'])
+def delete_pokemon(id):
+    db = modelo_pokemon.DBPokemon()
+    id = db.delete_pokemon(id)
+    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    return jsonify(res)
+
+@app.route('/pokemon/<id>', methods=['GET'])
+def get_pokemon(id):
+    db = modelo_pokemon.DBPokemon()
+    id = db.get_pokemon(id)
+    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    return jsonify(res)
 
 
 '''

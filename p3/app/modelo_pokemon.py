@@ -16,13 +16,24 @@ class DBPokemon:
         return self.coll.find({"$or": [{'name': { "$regex": clave}}, {'type': { "$regex": clave}}]})
 
     def add_pokemon(self, nombre, img, type, height, weight, candy, egg):
-        nuevo_pokemon = {'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg}
+        nuevo_pokemon = {'id': 666, 'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg}
         aux = self.coll.insert_one(nuevo_pokemon)
         
         return aux.inserted_id
 
-    def update_pokemon(self, id, nombre, img, type, height, weight, candy, egg):
-        pass
+    def modify_pokemon(self, id, nombre, img, type, height, weight, candy, egg):
+        filter = { 'id': id }
+        nuevo_pokemon = {"$set": {'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg} }
+        aux = self.coll.update_one(filter, nuevo_pokemon)
+        
+        return None
 
     def delete_pokemon(self, id):
-        pass
+        
+        self.coll.delete_one({ 'id': int(id) })
+        
+        return None
+
+    def get_pokemon(self, id):
+        poke = self.coll.find({'id':int(id)})
+        return poke
