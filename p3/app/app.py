@@ -6,6 +6,7 @@ import funciones
 
 import modelo 
 import modelo_pokemon
+from bson.json_util import dumps
 
 
 app = Flask(__name__)
@@ -65,53 +66,79 @@ def mongo():
     if request.method == 'POST':
         pokemons = db.buscar(request.form['texto']) # devuelve un cursor(*), no una lista ni un iterador
         for pokemon in pokemons:
-            argumentos['lista_pokemon'].append(pokemon['name']+" "+str(pokemon['id']))
+            argumentos['lista_pokemon'].append(pokemon)
 
         return render_template('buscar.html', **argumentos)
 
     return render_template('buscar.html', **argumentos)
 
-@app.route('/create_pokemon', methods=['POST'])
+@app.route('/pokemon', methods=['POST'])
 def add_pokemon():
-    body = request.get_json(force=True)
-    print(body)
-    if body is None:
-        return "El cuerpo está vacío", 400
-    
-    if 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
-        return "Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 400
+    try:
+        body = request.get_json(force=True)
+        print(body)
+    except:
+        res = {'estado': "FAIL json invalido", 'codigo' : 400}
+        return jsonify(res)
 
-    db = modelo_pokemon.DBPokemon()
-    id = db.add_pokemon(body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
-    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    if body is None:
+        res ={'estado': "FAIL cuerpo vacio", 'codigo' : 400} 
+    elif 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
+        res ={'estado': "FAIL Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 'codigo' : 400}
+    else:
+        db = modelo_pokemon.DBPokemon()
+        id = db.add_pokemon(body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
+        if id != None:
+            res = {'estado' : "OK", 'codigo' : 200}
+        else:
+            res = {'estado' : "FAIL no se añade nada", 'codigo' : 400}
     return jsonify(res)
 
-@app.route('/modify_pokemon/<id>', methods=['PUT'])
-def modify_pokemon():
-    body = request.get_json(force=True)
-    if body is None:
-        return "El cuerpo está vacío", 400
-    
-    #if 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
-    #    return "Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 400
+@app.route('/pokemon/<id>', methods=['PUT'])
+def modify_pokemon(id):
+    id = int(id)
+    try:
+        body = request.get_json(force=True)
+        print(body)
+    except:
+        res = {'estado': "FAIL json invalido", 'codigo' : 400}
+        return jsonify(res)
 
-    db = modelo_pokemon.DBPokemon()
-    id = db.modify_pokemon(body['name'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
-    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    if body is None:
+        res ={'estado': "FAIL cuerpo vacio", 'codigo' : 400}
+    elif 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
+        res ={'estado': "FAIL Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 'codigo' : 400}
+    else:
+        db = modelo_pokemon.DBPokemon()
+        aux = db.modify_pokemon(id, body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
+        if aux:
+            res = {'estado' : "OK", 'codigo' : 200}
+        else:
+            res ={'estado': "FAIL no se actualiza nada", 'codigo' : 400}
     return jsonify(res)
 
 @app.route('/pokemon/<id>', methods=['DELETE'])
 def delete_pokemon(id):
+    id = int(id)
     db = modelo_pokemon.DBPokemon()
-    id = db.delete_pokemon(id)
-    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    aux = db.delete_pokemon(id)
+    if aux:
+        res = {'estado' : "OK", 'codigo' : 200}
+    else:
+        res ={'estado': "FAIL no se borra nada", 'codigo' : 400}
     return jsonify(res)
 
 @app.route('/pokemon/<id>', methods=['GET'])
 def get_pokemon(id):
+    id = int(id)
     db = modelo_pokemon.DBPokemon()
-    id = db.get_pokemon(id)
-    res = {'estado' : "OK", 'codigo' : 200}#, 'id' : id}
+    poke = dumps(db.get_pokemon(id))
+    if poke != None and len(poke) > 0 and poke != "[]":
+        res = poke
+        res += "\'estado\':\"OK\", \'codigo\': 200"
+        return jsonify(res)
+    else:
+        res = {'estado' : "FAIL no se obtiene nada", 'codigo' : 400}
     return jsonify(res)
 
 

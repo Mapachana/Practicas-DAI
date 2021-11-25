@@ -1,7 +1,7 @@
 from pickleshare import *
 
 from pymongo import MongoClient
-
+from bson.json_util import dumps
 
 class DBPokemon:
     def __init__(self):
@@ -16,24 +16,40 @@ class DBPokemon:
         return self.coll.find({"$or": [{'name': { "$regex": clave}}, {'type': { "$regex": clave}}]})
 
     def add_pokemon(self, nombre, img, type, height, weight, candy, egg):
-        nuevo_pokemon = {'id': 666, 'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg}
+        nuevo_pokemon = {'id': self.obtener_id(), 'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg}
         aux = self.coll.insert_one(nuevo_pokemon)
         
         return aux.inserted_id
 
     def modify_pokemon(self, id, nombre, img, type, height, weight, candy, egg):
-        filter = { 'id': id }
+        filter = {'id': int(id) }
         nuevo_pokemon = {"$set": {'name': nombre, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg} }
-        aux = self.coll.update_one(filter, nuevo_pokemon)
+        res = self.coll.update_one(filter, nuevo_pokemon)
         
-        return None
+        if res.modified_count > 0:
+            return True
+        else:
+            return False
 
     def delete_pokemon(self, id):
         
-        self.coll.delete_one({ 'id': int(id) })
+        res = self.coll.delete_one({ 'id': int(id) })
         
-        return None
+        if res.deleted_count > 0:
+            return True
+        else:
+            return False
 
     def get_pokemon(self, id):
         poke = self.coll.find({'id':int(id)})
         return poke
+
+    def obtener_id(self):
+        id = 0
+        for pokemon in self.coll.find():
+            if 'id' in pokemon:
+                if pokemon['id'] > id:
+                    id = pokemon['id']
+
+        id += 1
+        return id
