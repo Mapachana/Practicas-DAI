@@ -339,7 +339,7 @@ def cadena():
     else:
         argumentos['ultimaspaginas'] = []
 
-    return render_template('erastotenes.html', **argumentos)
+    return render_template('cadena.html', **argumentos)
 
 '''
 PRACTICA 1
