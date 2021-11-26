@@ -42,7 +42,13 @@ class DBPokemon:
 
     def get_pokemon(self, id):
         poke = self.coll.find({'id':int(id)})
-        return poke
+        res = []
+        for pok in poke:
+            res.append(pok)
+        if len(res) > 0:
+            return res[0]
+        else:
+            return None
 
     def obtener_id(self):
         id = 0

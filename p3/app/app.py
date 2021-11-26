@@ -6,7 +6,6 @@ import funciones
 
 import modelo 
 import modelo_pokemon
-from bson.json_util import dumps
 
 
 app = Flask(__name__)
@@ -132,13 +131,13 @@ def delete_pokemon(id):
 def get_pokemon(id):
     id = int(id)
     db = modelo_pokemon.DBPokemon()
-    poke = dumps(db.get_pokemon(id))
-    if poke != None and len(poke) > 0 and poke != "[]":
-        res = poke
-        res += "\'estado\':\"OK\", \'codigo\': 200"
+    poke = str(db.get_pokemon(id))
+    if poke != "None":
+        res = {'estado': "OK", 'codigo' : 200}
+        res['pokemon'] = poke
         return jsonify(res)
     else:
-        res = {'estado' : "FAIL no se obtiene nada", 'codigo' : 400}
+        res = {'estado': "FAIL no se obtiene nada", 'codigo' : 400}
     return jsonify(res)
 
 
