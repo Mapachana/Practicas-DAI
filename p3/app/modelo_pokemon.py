@@ -17,6 +17,13 @@ class DBPokemon:
 
         return self.coll.find({"$or": [{'name': { "$regex": clave}}, {'type': { "$regex": clave}}]})
 
+    def buscar_por_tipo(self, clave=None):
+        '''Metodo para buscar pokemons que contengan la clave en el nombre o tipo'''
+        clave = '.*'+clave+'.*'
+
+
+        return self.coll.find({'type': { "$regex": clave}})
+
     def add_pokemon(self, nombre, img, type, height, weight, candy, egg):
         '''Metodo para añadir un pokemon a la base de datos'''
         nuevo_pokemon = {'id': self.obtener_id(), 'name': nombre, 'img': img, 'type': type, 'height': height, 'weight': weight, 'candy': candy, 'egg': egg}

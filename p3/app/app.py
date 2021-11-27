@@ -71,6 +71,84 @@ def mongo():
 
     return render_template('buscar.html', **argumentos)
 
+
+@app.route('/paginacion', methods=['GET', 'POST'])
+@app.route('/paginacion/<tipo>', methods=['GET', 'POST'])
+def paginacion(tipo=''):
+    argumentos = {}
+    argumentos['error'] = ""
+    argumentos['lista_pokemon'] = []
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
+
+    db = modelo_pokemon.DBPokemon()
+
+    tipos = ['Water', 'Psychic', 'Fire', 'Poison', 'Rock', 'Flying', 'Grass', 'Bug']
+    argumentos['tipos'] = tipos
+	
+    if request.method == 'POST':
+        tipo = request.form['texto']
+
+        if tipo != "" and tipo not in tipos:
+            tipo = 'Water'
+        
+        if tipo != "":
+            pokemons = db.buscar_por_tipo(tipo) # devuelve un cursor(*), no una lista ni un iterador
+            for pokemon in pokemons:
+                argumentos['lista_pokemon'].append(pokemon)
+
+            argumentos['tipo'] = tipo
+            
+            indice = tipos.index(tipo)
+            print(indice)
+            if indice == 0:
+                argumentos['anterior'] = tipos[len(tipos)-1]
+            else:
+                argumentos['anterior'] = tipos[indice-1]
+
+            if indice == len(tipos)-1:
+                argumentos['siguiente'] = tipos[0]
+            else:
+                argumentos['siguiente'] = tipos[indice+1]
+
+        return render_template('buscar_tipo.html', **argumentos)
+
+    if tipo != "" and tipo not in tipos:
+        tipo = 'Water'
+    
+    if tipo != "":
+        pokemons = db.buscar_por_tipo(tipo) # devuelve un cursor(*), no una lista ni un iterador
+        for pokemon in pokemons:
+            argumentos['lista_pokemon'].append(pokemon)
+
+        argumentos['tipo'] = tipo
+        
+        indice = tipos.index(tipo)
+        if indice == 0:
+            argumentos['anterior'] = tipos[len(tipos)-1]
+        else:
+            argumentos['anterior'] = tipos[indice-1]
+
+        if indice == len(tipos)-1:
+            argumentos['siguiente'] = tipos[0]
+        else:
+            argumentos['siguiente'] = tipos[indice+1]
+
+    return render_template('buscar_tipo.html', **argumentos)
+
 @app.route('/pokemon', methods=['POST'])
 def add_pokemon():
     try:
