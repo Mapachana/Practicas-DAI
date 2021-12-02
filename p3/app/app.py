@@ -457,7 +457,9 @@ def comprobar_regex(exp):
     return res
     
 
-
+@app.route('/figuras')
+def figuras():
+    return render_template('figuras.html')
 
 
 
