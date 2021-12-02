@@ -461,6 +461,8 @@ def comprobar_regex(exp):
 def figuras():
     return render_template('figuras.html')
 
-
+@app.route('/imagen')
+def imagen():
+    return render_template('mipagina.html')
 
 
