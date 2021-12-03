@@ -7,4 +7,12 @@ def index(request):
 
 def test_template(request):
     context = {}   # Aquí van la las variables para la plantilla
-    return render(request,'test.html', context)
+    return render(request,'galerias/test.html', context)
+
+def padre(request):
+    context = {}
+    return render(request, 'galerias/parent.html', context)
+
+def ver_cuadros(request):
+    context = {}
+    return render(request, 'galerias/cuadros.html', context)
