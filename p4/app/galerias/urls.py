@@ -23,6 +23,7 @@ urlpatterns = [
     path('test_template', views.test_template, name="test_template"),
     path('padre', views.padre, name="padre"),
     path('cuadros', views.ver_cuadros, name="cuadros"),
+    path('cuadro/crear', views.crear_cuadro, name="crear_cuadro")
 ]
 
 

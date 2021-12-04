@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from .forms import *
 
 # Create your views here.
 
@@ -16,3 +17,8 @@ def padre(request):
 def ver_cuadros(request):
     context = {}
     return render(request, 'galerias/cuadros.html', context)
+
+def crear_cuadro(request):
+    form = CuadroForm()
+    context = {'form': form }
+    return render(request, 'galerias/crear_cuadro.html', {'form': form})
