@@ -23,7 +23,10 @@ urlpatterns = [
     path('test_template', views.test_template, name="test_template"),
     path('padre', views.padre, name="padre"),
     path('cuadros', views.ver_cuadros, name="cuadros"),
-    path('cuadro/crear', views.crear_cuadro, name="crear_cuadro")
+    path('cuadro/crear', views.crear_cuadro, name="crear_cuadro"),
+    path('cuadro/modificar/<str:pk>', views.modificar_cuadro, name="modificar_cuadro"),
+    path('cuadro/eliminar/<str:pk>', views.eliminar_cuadro, name="eliminar_cuadro"),
+    path('galeria/crear', views.crear_galeria, name="crear_galeria")
 ]
 
 

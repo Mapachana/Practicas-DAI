@@ -2,13 +2,46 @@
 
 
 {% block contenido %}
-<h2> BUSCAR</h2>
+<h2> CUADROS</h2>
 
-<form method=POST>
-      <label>Pokemon a buscar</label><br>
-      <input type="text" name="texto"><br>
-      <input type=submit value=Buscar>
-</form>
+<a class="btn btn-dark text-center" href="{% url 'crear_cuadro' %}">Crear cuadro</a>
+
+<h3> Cuadros ya existentes</h3>
+
+<div class="d-flex flex-column flex-shrink-0 p-3">
+      {% for cuadro in cuadros %}
+            <div>
+                  {% if cuadro.nombre %}
+                        <p> Nombre: {{cuadro.nombre}}</p>
+                  {% else %}
+                        <p>Nombre: desconocido </p>
+                  {% endif %}
+                  
+                  {% if cuadro.galeria %}
+                        <p>Galeria: {{cuadro.galeria}}</p>
+                  {% else %}
+                        <p>Galeria: desconocida</p>
+                  {% endif %}
+
+                  {% if cuadro.autor %}
+                        <p> Autor: {{cuadro.autor}}</p>
+                  {% else %}
+                        <p>Autor: desconocido</p>
+                  {% endif %}
+
+                  {% if cuadro.fecha_creacion %}
+                        <p> Fecha: {{cuadro.fecha_creacion}}</p>
+                  {% else %}
+                        <p>Fecha: desconocida</p>
+                  {% endif %}
+
+                  <a class="btn btn btn-dark text-center " href="{% url 'modificar_cuadro' cuadro.id %} ">Modificar</a>
+                  <a class="btn btn btn-dark text-center " href="{% url 'eliminar_cuadro' cuadro.id %} ">Eliminar</a>
+                  
+                  <hr>
+            </div>
+      {% endfor %}
+</div>
 
 
 
