@@ -4,6 +4,11 @@ from .forms import *
 # Create your views here.
 
 def index(request):
+    cuadros = Cuadro.objects.all().order_by('nombre')
+    context = {'cuadros': cuadros}
+    return render(request, 'galerias/cuadros.html', context)
+
+def helloworld(request):
     return HttpResponse('Hello World!')
 
 def test_template(request):
