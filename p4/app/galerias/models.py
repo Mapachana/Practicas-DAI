@@ -18,4 +18,4 @@ class Cuadro(models.Model):
   galeria          = models.ForeignKey(Galeria, on_delete=models.CASCADE)
   autor            = models.CharField(max_length=100)
   fecha_creacion   = models.DateField(default=timezone.now)
-  
+  imagen           = models.ImageField(upload_to='img/', blank=True)

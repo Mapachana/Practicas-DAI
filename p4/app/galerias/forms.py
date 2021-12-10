@@ -10,4 +10,4 @@ class GaleriaForm(forms.ModelForm):
 class CuadroForm(forms.ModelForm):
     class Meta:
         model = Cuadro
-        fields = ('nombre', 'galeria', 'autor', 'fecha_creacion')
+        fields = ('nombre', 'galeria', 'autor', 'fecha_creacion', 'imagen')

@@ -35,6 +35,14 @@
                         <p>Fecha: desconocida</p>
                   {% endif %}
 
+                  {% if cuadro.imagen %}
+                        <p> foto: {{cuadro.fecha_creacion}}</p>
+                  {% else %}
+                        <p>Foto: desconocida</p>
+                  {% endif %}
+
+
+
                   <a class="btn btn btn-dark text-center " href="{% url 'modificar_cuadro' cuadro.id %} ">Modificar</a>
                   <a class="btn btn btn-dark text-center " href="{% url 'eliminar_cuadro' cuadro.id %} ">Eliminar</a>
                   
