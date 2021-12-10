@@ -26,7 +26,10 @@ urlpatterns = [
     path('cuadro/crear', views.crear_cuadro, name="crear_cuadro"),
     path('cuadro/modificar/<str:pk>', views.modificar_cuadro, name="modificar_cuadro"),
     path('cuadro/eliminar/<str:pk>', views.eliminar_cuadro, name="eliminar_cuadro"),
-    path('galeria/crear', views.crear_galeria, name="crear_galeria")
+    path('galerias', views.ver_galerias, name="galerias"),
+    path('galeria/crear', views.crear_galeria, name="crear_galeria"),
+    path('galeria/modificar/<str:pk>', views.modificar_galeria, name="modificar_galeria"),
+    path('galeria/eliminar/<str:pk>', views.eliminar_galeria, name="eliminar_galeria")
 ]
 
 

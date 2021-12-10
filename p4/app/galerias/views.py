@@ -56,7 +56,14 @@ def eliminar_cuadro(request, pk):
     if request.method == "POST":
         cuadro.delete()
         return redirect('cuadros')
+
     return render(request,'galerias/borrar_cuadro.html', context)
+
+def ver_galerias(request):
+    galerias = Galeria.objects.all().order_by('nombre')
+    context = {'galerias': galerias}
+    return render(request, 'galerias/galerias.html', context)
+
 
 def crear_galeria(request):
     form = GaleriaForm()
@@ -67,9 +74,33 @@ def crear_galeria(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
-            return redirect('cuadros')
+            return redirect('galerias')
 
     else:
         form = GaleriaForm()
 
-    return render(request, 'galerias/crear_galeria.html', {'form': form})
+    return render(request, 'galerias/crear_galeria.html', context)
+
+def modificar_galeria(request, pk):
+    galeria = Galeria.objects.get(id=pk)
+    form = GaleriaForm(instance=galeria)
+    context = {'form': form, 'error': None }
+
+    if request.method == "POST":
+        form = GaleriaForm(request.POST, instance=galeria)
+        if form.is_valid():
+            form.save()
+            return redirect('galerias')
+        else:
+            context['error'] = form.errors
+
+    return render(request, 'galerias/crear_galeria.html', context)
+
+def eliminar_galeria(request, pk):
+    galeria = Galeria.objects.get(id=pk)
+    context = {'galeria' : galeria}
+    if request.method == "POST":
+        galeria.delete()
+        return redirect('galerias')
+        
+    return render(request,'galerias/borrar_galeria.html', context)
