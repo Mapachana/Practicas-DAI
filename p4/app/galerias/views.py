@@ -29,7 +29,7 @@ def crear_cuadro(request):
     context = {'form': form }
 
     if request.method == 'POST':
-        form = CuadroForm(request.POST)
+        form = CuadroForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
@@ -46,7 +46,7 @@ def modificar_cuadro(request, pk):
     context = {'form': form, 'error': None }
 
     if request.method == "POST":
-        form = CuadroForm(request.POST, instance=cuadro)
+        form = CuadroForm(request.POST, request.FILES, instance=cuadro)
         if form.is_valid():
             form.save()
             return redirect('cuadros')
