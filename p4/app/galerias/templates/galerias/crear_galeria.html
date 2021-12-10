@@ -1,13 +1,15 @@
 {% extends "galerias/parent.html" %}
 
+{% load crispy_forms_tags %}
+
 
 {% block contenido %}
 <h2> CREAR GALERIA</h2>
 
 <form method="POST" class="post-form">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="save btn btn-default">Save</button>
+      {{ form|crispy }}
+      <button type="submit" class="save btn btn-dark">Save</button>
 </form>
 
 
