@@ -34,14 +34,17 @@ def crear_cuadro(request):
             post = form.save(commit=False)
             post.save()
             return redirect('cuadros')
-
     else:
         form = CuadroForm()
 
     return render(request, 'galerias/crear_cuadro.html', context)
 
 def modificar_cuadro(request, pk):
-    cuadro = Cuadro.objects.get(id=pk)
+    try:
+        cuadro = Cuadro.objects.get(id=pk)
+    except:
+        return redirect('cuadros')
+
     form = CuadroForm(instance=cuadro)
     context = {'form': form, 'error': None }
 
@@ -56,7 +59,11 @@ def modificar_cuadro(request, pk):
     return render(request, 'galerias/crear_cuadro.html', context)
 
 def eliminar_cuadro(request, pk):
-    cuadro = Cuadro.objects.get(id=pk)
+    try:
+        cuadro = Cuadro.objects.get(id=pk)
+    except:
+        return redirect('cuadros')
+
     context = {'cuadro' : cuadro}
     if request.method == "POST":
         cuadro.delete()
@@ -87,7 +94,11 @@ def crear_galeria(request):
     return render(request, 'galerias/crear_galeria.html', context)
 
 def modificar_galeria(request, pk):
-    galeria = Galeria.objects.get(id=pk)
+    try:
+        galeria = Galeria.objects.get(id=pk)
+    except:
+        return redirect('galerias')
+    
     form = GaleriaForm(instance=galeria)
     context = {'form': form, 'error': None }
 
@@ -102,7 +113,11 @@ def modificar_galeria(request, pk):
     return render(request, 'galerias/crear_galeria.html', context)
 
 def eliminar_galeria(request, pk):
-    galeria = Galeria.objects.get(id=pk)
+    try:
+        galeria = Galeria.objects.get(id=pk)
+    except:
+        return redirect('galerias')
+    
     context = {'galeria' : galeria}
     if request.method == "POST":
         galeria.delete()
