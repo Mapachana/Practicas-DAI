@@ -1,0 +1,15 @@
+{% extends "galerias/parent.html" %}
+
+
+{% block contenido %}
+<h2> CREAR CUADRO</h2>
+
+<form method="POST" class="post-form" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="save btn btn-dark">Save</button>
+</form>
+
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "galerias/parent.html" %}
+
+
+{% block contenido %}
+<h2> BORRAR CUADRO</h2>
+
+<form action="{% url 'eliminar_cuadro' cuadro.id %}" method="POST">{% csrf_token %}
+      <label> El cuadro se eliminará para siempre, ¿estás seguro?</label> <br>
+      <button type="submit" class="btn btn-dark text-center">Confirmar</button>
+</form>
+
+<a class="btn btn-dark text-center" href="{% url 'cuadros' %} ">Cancelar</a>
+
+{% endblock %}

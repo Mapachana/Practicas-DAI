@@ -1,0 +1,42 @@
+{% extends "galerias/parent.html" %}
+
+
+{% block contenido %}
+<h2> GALERIAS</h2>
+
+{% if perms.galerias.add_galeria %}
+      <a class="btn btn-dark text-center" href="{% url 'crear_galeria' %}">Crear galería</a>
+{% endif %}
+
+<h3> Galerías ya existentes</h3>
+
+<div class="d-flex flex-column flex-shrink-0 p-3">
+      {% for galeria in galerias %}
+            <div>
+                  {% if galeria.nombre %}
+                        <p> Nombre: {{galeria.nombre}}</p>
+                  {% else %}
+                        <p>Nombre: desconocido </p>
+                  {% endif %}
+                  
+                  {% if galeria.direccion %}
+                        <p>Dirección: {{galeria.direccion}}</p>
+                  {% else %}
+                        <p>Direccion: desconocida</p>
+                  {% endif %}
+
+                  {% if perms.galerias.change_galeria %}
+                        <a class="btn btn btn-dark text-center " href="{% url 'modificar_galeria' galeria.id %} ">Modificar</a>
+                  {% endif %}
+                  {% if perms.galerias.delete_galeria %}
+                        <a class="btn btn btn-dark text-center " href="{% url 'eliminar_galeria' galeria.id %} ">Eliminar</a>
+                  {% endif %}
+
+                  <hr>
+            </div>
+      {% endfor %}
+</div>
+
+
+
+{% endblock %}

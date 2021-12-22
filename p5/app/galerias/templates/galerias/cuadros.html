@@ -1,0 +1,64 @@
+{% extends "galerias/parent.html" %}
+
+
+{% block contenido %}
+<h2> CUADROS</h2>
+
+{% if perms.galerias.add_cuadro %}
+      <a class="btn btn-dark text-center" href="{% url 'crear_cuadro' %}">Crear cuadro</a>
+{% endif %}
+
+<h3> Cuadros ya existentes</h3>
+
+<div class="d-flex flex-column flex-shrink-0 p-3">
+      {% for cuadro in cuadros %}
+      <div>
+            <div class="d-flex flex-row flex-shrink-p p-3 justify-content-around">
+                  <div>
+                        {% if cuadro.nombre %}
+                              <p> Nombre: {{cuadro.nombre}}</p>
+                        {% else %}
+                              <p>Nombre: desconocido </p>
+                        {% endif %}
+                        
+                        {% if cuadro.galeria %}
+                              <p>Galeria: {{cuadro.galeria}}</p>
+                        {% else %}
+                              <p>Galeria: desconocida</p>
+                        {% endif %}
+
+                        {% if cuadro.autor %}
+                              <p> Autor: {{cuadro.autor}}</p>
+                        {% else %}
+                              <p>Autor: desconocido</p>
+                        {% endif %}
+
+                        {% if cuadro.fecha_creacion %}
+                              <p> Fecha: {{cuadro.fecha_creacion}}</p>
+                        {% else %}
+                              <p>Fecha: desconocida</p>
+                        {% endif %}
+                  </div>
+                  <div>
+                        {% if cuadro.imagen %}
+                              <img src="{{ cuadro.imagen.url }}", width="400px">
+                        {% else %}
+                              <p></p>
+                        {% endif %}
+                  </div>
+            </div>
+            {% if perms.galerias.change_cuadro %}
+                <a class="btn btn btn-dark text-center" href="{% url 'modificar_cuadro' cuadro.id %}">Modificar</a>
+            {% endif %}
+
+            {% if perms.galerias.delete_cuadro %}
+                  <a class="btn btn btn-dark text-center " href="{% url 'eliminar_cuadro' cuadro.id %} ">Eliminar</a>
+            {% endif %}
+            <hr>
+      </div>
+      {% endfor %}
+</div>
+
+
+
+{% endblock %}
