@@ -169,6 +169,9 @@ def eliminar_galeria(request, pk):
     return render(request,'galerias/borrar_galeria.html', context)
 
 def signup(request):
+    '''
+    Funcion para registrar un nuevo usuario
+    '''
     context = {}
     form = UserForm()
     if request.method == 'POST':
