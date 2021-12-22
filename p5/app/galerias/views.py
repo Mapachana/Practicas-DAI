@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .forms import *
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -166,3 +167,22 @@ def eliminar_galeria(request, pk):
         return redirect('galerias')
         
     return render(request,'galerias/borrar_galeria.html', context)
+
+def signup(request):
+    context = {}
+    form = UserForm()
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            User.objects.create_user(
+                username = form['username'].value(),
+                password = form['password'].value(),
+            )
+
+            return redirect('accounts/login')
+        else:
+            context['errores'].append("Los datos introducidos no son válidos o ya existen.")
+        
+    context['form'] = form
+    
+    return render(request, 'registration/signup.html', context)

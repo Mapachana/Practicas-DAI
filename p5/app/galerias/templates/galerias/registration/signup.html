@@ -1,21 +1,23 @@
 {% extends "parent.html" %}
 
+{% load crispy_forms_tags %}
 
 {% block contenido %}
-<h2> SIGN UP</h2>
 
-<form method=POST>
-  <label>Nombre de usuario</label><br>
-  <input type="text" name="username"><br>
-  <label>Nombre</label><br>
-  <input type="text" name="name"><br>
-  <label>Contraseña</label><br>
-  <input type="password" name="password"><br>
-  <input type=submit value="Registrarse">
-</form>
+    <h1>Regístrate</h1>
 
-{% if error is defined and error|length %}
-  <p>{{ error }}</p>
-{% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+        <button type="submit" class="btn btn btn-dark text-center">Sign Up</button>
+    </form>
 
-{% endblock %}
+    {% for error in errores %}
+    <p>{{ error }}</p>
+    {% endfor %}
+
+    <br>
+    <a class="btn btn btn-dark text-center" href="{% url 'index' %}" role="button">Volver a Home</a>
+
+{% endblock %} 

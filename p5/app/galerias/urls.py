@@ -30,7 +30,8 @@ urlpatterns = [
     path('galerias', views.ver_galerias, name="galerias"),
     path('galeria/crear', views.crear_galeria, name="crear_galeria"),
     path('galeria/modificar/<str:pk>', views.modificar_galeria, name="modificar_galeria"),
-    path('galeria/eliminar/<str:pk>', views.eliminar_galeria, name="eliminar_galeria")
+    path('galeria/eliminar/<str:pk>', views.eliminar_galeria, name="eliminar_galeria"),
+    path('signup', views.signup, name="signup")
 ]
 
 urlpatterns += [ path('accounts/', include('django.contrib.auth.urls'))] 
