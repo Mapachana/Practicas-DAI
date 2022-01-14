@@ -4,22 +4,24 @@
 {% block contenido %}
 <h2> Modificar pokemon</h2>
 
-<form method=POST>
+<form>
+  <label>Id</label><br>
+  <input type="text" name="id" id="id"><br>
   <label>Name</label><br>
-  <input type="text" name="name"><br>
+  <input type="text" name="name" id="name"><br>
   <label>Img</label><br>
   <input type="text" name="img"><br>
   <label>Type</label><br>
   <input type="text" name="type"><br>
   <label>Height</label><br>
-  <input type="text" name="heght"><br>
+  <input type="text" name="height" id="height"><br>
   <label>Weight</label><br>
   <input type="text" name="weight"><br>
   <label>Candy</label><br>
   <input type="text" name="candy"><br>
   <label>Egg</label><br>
   <input type="text" name="egg"><br>
-  <input type=submit value=Aceptar>
+  <input type="button" onclick="modificar()" value="Aceptar">
 </form>
 
 

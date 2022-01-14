@@ -34,6 +34,13 @@ def hello_world():
 
     return render_template('index.html', **argumentos)
 
+@app.route('/modificar_pokemon/<id>')
+def modificar_pokemon(id):
+    argumentos = {}
+
+    return render_template('modificar_pokemon.html', **argumentos)
+
+
 '''
 Practica 3
 '''
@@ -174,9 +181,10 @@ def add_pokemon():
 @app.route('/pokemon/<id>', methods=['PUT'])
 def modify_pokemon(id):
     id = int(id)
+    print(id, flush=True)
     try:
         body = request.get_json(force=True)
-        print(body)
+        print(body, flush=True)
     except:
         res = {'estado': "FAIL json invalido", 'codigo' : 400}
         return jsonify(res)
