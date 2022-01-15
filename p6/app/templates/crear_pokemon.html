@@ -1,0 +1,30 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> Crear pokemon</h2>
+
+<form>
+  <label>Name</label><br>
+  <input type="text" name="name" id="name"><br>
+  <label>Img</label><br>
+  <input type="text" name="img" id="img"><br>
+  <label>Type</label><br>
+  <input type="text" name="type" id="type"><br>
+  <label>Height</label><br>
+  <input type="text" name="height" id="height"><br>
+  <label>Weight</label><br>
+  <input type="text" name="weight" id="weight"><br>
+  <label>Candy</label><br>
+  <input type="text" name="candy" id="candy"><br>
+  <label>Egg</label><br>
+  <input type="text" name="egg" id="egg"><br>
+  <input type="button" onclick="crear()" value="Aceptar">
+</form>
+
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}

@@ -39,11 +39,19 @@ def hello_world():
 Practica 6
 '''
 
+@app.route('/crear_pokemon')
+def crear_pokemon():
+    argumentos = {}
+
+
+    return render_template('crear_pokemon.html', **argumentos)
+
+
 @app.route('/modificar_pokemon/<id>')
 def modificar_pokemon(id):
     id = int(float(id))
     argumentos = {}
-    
+
     db = modelo_pokemon.DBPokemon()
     argumentos['pokemon'] = db.get_pokemon(id)
 
@@ -130,7 +138,7 @@ def paginacion(tipo=''):
             argumentos['tipo'] = tipo
             
             indice = tipos.index(tipo)
-            print(indice)
+
             if indice == 0:
                 argumentos['anterior'] = tipos[len(tipos)-1]
             else:
@@ -170,7 +178,7 @@ def paginacion(tipo=''):
 def add_pokemon():
     try:
         body = request.get_json(force=True)
-        print(body)
+
     except:
         res = {'estado': "FAIL json invalido", 'codigo' : 400}
         return jsonify(res)
@@ -179,6 +187,8 @@ def add_pokemon():
         res ={'estado': "FAIL cuerpo vacio", 'codigo' : 400} 
     elif 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
         res ={'estado': "FAIL Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 'codigo' : 400}
+    elif body['name'] == "" or body['img'] == "" or body['type'] == "" or body['height'] == None or body['weight'] == None or body['candy'] == "" or body['egg'] == "":
+        res = {'estado': "FAIL Faltan datos. Hay campos vacíos", 'codigo' : 400} 
     else:
         db = modelo_pokemon.DBPokemon()
         id = db.add_pokemon(body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
@@ -191,10 +201,8 @@ def add_pokemon():
 @app.route('/pokemon/<id>', methods=['PUT'])
 def modify_pokemon(id):
     id = int(id)
-    print(id, flush=True)
     try:
         body = request.get_json(force=True)
-        print(body, flush=True)
     except:
         res = {'estado': "FAIL json invalido", 'codigo' : 400}
         return jsonify(res)
@@ -203,6 +211,8 @@ def modify_pokemon(id):
         res ={'estado': "FAIL cuerpo vacio", 'codigo' : 400}
     elif 'name' not in body or 'img' not in body or 'type' not in body or 'height' not in body or 'weight' not in body or 'candy' not in body or 'egg' not in body:
         res ={'estado': "FAIL Faltan datos. Se necesita nombre, img, tipo, altura, peso, chuche y huevo", 'codigo' : 400}
+    elif body['name'] == "" or body['img'] == "" or body['type'] == "" or body['height'] == None or body['weight'] == None or body['candy'] == "" or body['egg'] == "":
+        res = {'estado': "FAIL Faltan datos. Hay campos vacíos", 'codigo' : 400} 
     else:
         db = modelo_pokemon.DBPokemon()
         aux = db.modify_pokemon(id, body['name'], body['img'], body['type'], body['height'], body['weight'], body['candy'], body['egg'])
@@ -250,8 +260,6 @@ def login():
         if request.form['username'] != "" and request.form['password'] and db.comprobar_login(request.form['username'], request.form['password']):
             aux = request.form['username']
             session['username'] = aux
-            print("entro aqui y vale")
-            print(session['username'])
             return redirect('/')
         else:
             argumentos['error'] = "Los datos introducidos no son validos"
