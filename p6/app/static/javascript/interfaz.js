@@ -51,3 +51,19 @@ function crear(){
     }
   })
 }
+
+function borrar(){
+  pokemon = {
+    "id": parseInt($("#id").val()),
+  }
+
+  $.ajax({
+    type: "DELETE",
+    url: "/pokemon/"+pokemon['id'],
+    dataType: "json",
+    data: JSON.stringify(pokemon),
+    success: function(msg){
+      alert(msg['estado'])
+    }
+  })
+}

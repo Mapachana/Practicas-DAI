@@ -1,0 +1,21 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> Borrar pokemon</h2>
+
+Se va a borrar el pokemon con las siguientes características:
+<form>
+  <label>Id</label><br>
+  <input type="text" name="id" id="id" value="{{pokemon['id']}}" readonly><br>
+  <label>Name</label><br>
+  <input type="text" name="name" id="name" value="{{pokemon['name']}}" readonly><br>
+  <input type="button" onclick="borrar()" value="Aceptar">
+</form>
+
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}

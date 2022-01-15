@@ -43,7 +43,6 @@ Practica 6
 def crear_pokemon():
     argumentos = {}
 
-
     return render_template('crear_pokemon.html', **argumentos)
 
 
@@ -55,8 +54,17 @@ def modificar_pokemon(id):
     db = modelo_pokemon.DBPokemon()
     argumentos['pokemon'] = db.get_pokemon(id)
 
-
     return render_template('modificar_pokemon.html', **argumentos)
+
+@app.route('/borrar_pokemon/<id>')
+def borrar_pokemon(id):
+    id = int(float(id))
+    argumentos = {}
+
+    db = modelo_pokemon.DBPokemon()
+    argumentos['pokemon'] = db.get_pokemon(id)
+
+    return render_template('borrar_pokemon.html', **argumentos)
 
 
 '''
