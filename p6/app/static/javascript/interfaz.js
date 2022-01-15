@@ -101,3 +101,38 @@ function obtener(){
     }
   })
 }
+
+
+
+function modo_noche(){
+  if (document.getElementById("contenido").classList.contains('bg-light')){
+    $("#contenido").removeClass('bg-light text-white').addClass('bg-secondary text-white');
+  }
+  else{
+    $("#contenido").removeClass('bg-secondary text-white').addClass('bg-light text-black');
+  }
+
+}
+
+
+function aumentar_tamanio(){
+  tamanio_actual = parseFloat(getComputedStyle(document.body).getPropertyValue('font-size'))
+  
+  var constante = 2
+  var tamanio_nuevo = tamanio_actual + constante
+
+  $('body').css("font-size", tamanio_nuevo)
+}
+
+function disminuir_tamanio(){
+  tamanio_actual = parseFloat(getComputedStyle(document.body).getPropertyValue('font-size'))
+  
+  var constante = 2
+  var tamanio_nuevo = tamanio_actual - constante
+
+  if (tamanio_nuevo < 4){
+    tamanio_nuevo = 4
+  }
+  
+  $('body').css("font-size", tamanio_nuevo)
+}
