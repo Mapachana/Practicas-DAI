@@ -56,6 +56,7 @@ def modificar_pokemon(id):
 
     return render_template('modificar_pokemon.html', **argumentos)
 
+
 @app.route('/borrar_pokemon/<id>')
 def borrar_pokemon(id):
     id = int(float(id))
@@ -65,6 +66,15 @@ def borrar_pokemon(id):
     argumentos['pokemon'] = db.get_pokemon(id)
 
     return render_template('borrar_pokemon.html', **argumentos)
+
+
+@app.route('/obtener_pokemon/<id>')
+def obtener_pokemon(id):
+    id = int(float(id))
+    argumentos = {}
+    argumentos['id'] = id
+
+    return render_template('obtener_pokemon.html', **argumentos)
 
 
 '''
@@ -241,6 +251,7 @@ def delete_pokemon(id):
         res ={'estado': "FAIL no se borra nada", 'codigo' : 400}
     return jsonify(res)
 
+@app.route('/pokemon_get_p6/<id>', methods=['POST'])
 @app.route('/pokemon/<id>', methods=['GET'])
 def get_pokemon(id):
     id = int(id)

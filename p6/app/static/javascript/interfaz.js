@@ -67,3 +67,37 @@ function borrar(){
     }
   })
 }
+
+function obtener(){
+  pokemon = {
+    "id": parseInt($("#id").val()),
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/pokemon_get_p6/"+pokemon['id'],
+    dataType: "json",
+    data: JSON.stringify(pokemon),
+    success: function(msg){
+      alert(msg['estado'])
+
+      if (msg['codigo'] < 300){
+        var datos = msg['pokemon'].split(',');
+        datos = datos.slice(1, datos.length)
+
+        var suprimir = 5
+        for(var i = 0; i < datos.length-suprimir; i++){
+          var aux = datos[i].split(':')
+          if (aux[0].includes("id")){
+            aux[1] = parseInt(aux[1])
+          }
+          if (aux[0].includes("height") || aux[0].includes("weight")){
+            aux[1] = parseFloat(aux[1])
+          }
+
+          document.getElementById("informacion").innerHTML += aux[0] + " " + aux[1] + "<br>"
+        }
+      }
+    }
+  })
+}

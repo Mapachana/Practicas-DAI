@@ -1,0 +1,21 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> Detalles del pokemon con id: {{id}}</h2>
+<form>
+  <input type="text" name="id" id="id" value="{{id}}" readonly><br>
+  <input type="button" onclick="obtener()" value="Mostrar">
+</form>
+
+<div>
+<p name="informacion" id="informacion"></p>
+</div>
+
+
+
+{% if error is defined and error|length %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}
