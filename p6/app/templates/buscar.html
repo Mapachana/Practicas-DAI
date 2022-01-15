@@ -22,9 +22,10 @@
                               <li>Tipo: {{pokemon['type']}}</li>
                               <li>Altura: {{pokemon['height']}}</li>
                               <li>Peso: {{pokemon['weight']}}</li>
-                              <li><a href="modificar_pokemon/{{pokemon['id']}}">Modificar pokemon</a></li>
+                              
                         </ul>
                   </div>
+                  <a  class="btn btn btn-dark text-center" href="modificar_pokemon/{{pokemon['id']}}">Modificar pokemon</a>
             </div>
 
       {% endfor %}

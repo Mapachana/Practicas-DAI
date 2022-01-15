@@ -9,8 +9,12 @@ function modificar(){
   pokemon = {
     "id": parseInt($("#id").val()),
     "name": $("#name").val(),
+    "img": $("#img").val(),
+    "type": $("#type").val(),
     "height": parseFloat($("#height").val()),
-    "img" :"https://avatars.githubusercontent.com/u/32956016?v=4", "type" :"Water",  "weight" :45, "candy" :"Porfa", "egg" :"frito"
+    "weight": parseFloat($("#weight").val()),
+    "candy": $("#candy").val(),
+    "egg": $("#egg").val(),
   }
 
   $.ajax({

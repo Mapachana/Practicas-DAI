@@ -34,9 +34,19 @@ def hello_world():
 
     return render_template('index.html', **argumentos)
 
+
+'''
+Practica 6
+'''
+
 @app.route('/modificar_pokemon/<id>')
 def modificar_pokemon(id):
+    id = int(float(id))
     argumentos = {}
+    
+    db = modelo_pokemon.DBPokemon()
+    argumentos['pokemon'] = db.get_pokemon(id)
+
 
     return render_template('modificar_pokemon.html', **argumentos)
 

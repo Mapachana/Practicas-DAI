@@ -6,21 +6,21 @@
 
 <form>
   <label>Id</label><br>
-  <input type="text" name="id" id="id"><br>
+  <input type="text" name="id" id="id" value="{{pokemon['id']}}" readonly><br>
   <label>Name</label><br>
-  <input type="text" name="name" id="name"><br>
+  <input type="text" name="name" id="name" value="{{pokemon['name']}}"><br>
   <label>Img</label><br>
-  <input type="text" name="img"><br>
+  <input type="text" name="img" id="img" value="{{pokemon['img']}}"><br>
   <label>Type</label><br>
-  <input type="text" name="type"><br>
+  <input type="text" name="type" id="type" value="{{pokemon['type']}}"><br>
   <label>Height</label><br>
-  <input type="text" name="height" id="height"><br>
+  <input type="text" name="height" id="height" value="{{pokemon['height']}}"><br>
   <label>Weight</label><br>
-  <input type="text" name="weight"><br>
+  <input type="text" name="weight" id="weight" value="{{pokemon['weight']}}"><br>
   <label>Candy</label><br>
-  <input type="text" name="candy"><br>
+  <input type="text" name="candy" id="candy" value="{{pokemon['candy']}}"><br>
   <label>Egg</label><br>
-  <input type="text" name="egg"><br>
+  <input type="text" name="egg" id="egg" value="{{pokemon['egg']}}"><br>
   <input type="button" onclick="modificar()" value="Aceptar">
 </form>
 
