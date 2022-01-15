@@ -23,7 +23,7 @@ function modificar(){
     dataType: "json",
     data: JSON.stringify(pokemon),
     success: function(msg){
-      console.log(msg)
+      alert(msg['estado'])
     }
   })
   console.log("/pokemon/"+pokemon["id"])
