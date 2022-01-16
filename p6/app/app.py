@@ -77,6 +77,54 @@ def obtener_pokemon(id):
     return render_template('obtener_pokemon.html', **argumentos)
 
 
+@app.route('/pokemon_get_nombre_p6/<nombre>', methods=['POST'])
+def get_pokemon_nombre(nombre):
+    db = modelo_pokemon.DBPokemon()
+    lista_pokemon = []
+	
+    pokemons = db.buscar(nombre) # devuelve un cursor(*), no una lista ni un iterador
+    
+    campos = ['id', 'name', 'img', 'type', 'height', 'weight']
+    for pokemon in pokemons:
+        aux = [value for key, value in pokemon.items() if key in campos]
+        resultado = ""
+        for i in range(0, len(aux)):
+            resultado += campos[i] + ":" + str(aux[i]) + ","
+        lista_pokemon.append((resultado))
+        print("AQUIIIIIIIIII", flush=True)
+        print(resultado, flush=True)
+
+    if lista_pokemon != []:
+        res = {'estado': "OK", 'codigo' : 200}
+        res['lista_pokemon'] = lista_pokemon
+
+        return jsonify(res)
+    else:
+        res = {'estado': "FAIL no se obtiene nada", 'codigo' : 400}
+    return jsonify(res)
+
+
+@app.route('/buscar_pokemon', methods=['GET'])
+def buscar_pokemon():
+    argumentos = {}
+    argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
+
+    return render_template('buscar_pokemon.html', **argumentos)
+
 '''
 Practica 3
 '''
@@ -256,10 +304,17 @@ def delete_pokemon(id):
 def get_pokemon(id):
     id = int(id)
     db = modelo_pokemon.DBPokemon()
-    poke = str(db.get_pokemon(id))
+    poke = db.get_pokemon(id)
+
+    campos = ['id', 'name', 'img', 'type', 'height', 'weight']
+    aux = [value for key, value in poke.items() if key in campos]
+    resultado = ""
+    for i in range(0, len(aux)):
+        resultado += campos[i] + ":" + str(aux[i]) + ","
+    
     if poke != "None":
         res = {'estado': "OK", 'codigo' : 200}
-        res['pokemon'] = poke
+        res['pokemon'] = resultado
         return jsonify(res)
     else:
         res = {'estado': "FAIL no se obtiene nada", 'codigo' : 400}

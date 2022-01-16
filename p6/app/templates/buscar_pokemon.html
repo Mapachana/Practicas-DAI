@@ -1,0 +1,20 @@
+{% extends "parent.html" %}
+
+
+{% block contenido %}
+<h2> BUSCAR</h2>
+
+<form>
+      <label>Pokemon a buscar</label><br>
+      <input type="text" id="texto" name="texto"><br>
+      <input type="button" onclick="buscar()" value=Buscar>
+</form>
+
+<a  class="btn btn btn-dark text-center" href="crear_pokemon">Crear pokemon</a>
+
+<div class="d-flex flex-column flex-shrink-0" name="lista" id="lista">
+      
+
+</div>
+
+{% endblock %}

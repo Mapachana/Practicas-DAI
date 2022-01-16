@@ -83,23 +83,90 @@ function obtener(){
 
       if (msg['codigo'] < 300){
         var datos = msg['pokemon'].split(',');
-        datos = datos.slice(1, datos.length)
 
-        var suprimir = 5
-        for(var i = 0; i < datos.length-suprimir; i++){
-          var aux = datos[i].split(':')
-          if (aux[0].includes("id")){
-            aux[1] = parseInt(aux[1])
-          }
-          if (aux[0].includes("height") || aux[0].includes("weight")){
-            aux[1] = parseFloat(aux[1])
-          }
-
-          document.getElementById("informacion").innerHTML += aux[0] + " " + aux[1] + "<br>"
+        // Cojo los datos del pokemon
+        datos = msg['pokemon'].split(',')
+        id = datos[0].split(":")[1]
+        nombre = datos[1].split(":")[1]
+        aux_img = datos[2].split(":")
+        img = ""
+        for(j=1; j<aux_img.length; j++){
+          img += aux_img[j]
+          if (j < aux_img.length-1)
+            img+=":"
         }
+        type = datos[3].split(":")[1]
+        height = datos[4].split(":")[1]
+        weight = datos[5].split(":")[1]
+        console.log(datos)
+
+          document.getElementById("informacion").innerHTML = "<ul><li>Id: "+id+"</li><li>Tipo:"+type+"</li><li>Altura:"+height+"</li><li>Peso: "+weight+"</li></ul>"
+        
       }
     }
   })
+}
+
+function buscar(){
+  texto = $("#texto").val()
+
+  if (texto != ""){
+    $.ajax({
+      type: "POST",
+      url: "/pokemon_get_nombre_p6/"+texto,
+      dataType: "json",
+      data: JSON.stringify(texto),
+      success: function(msg){
+        alert(msg['estado'])
+        document.getElementById("lista").innerHTML = ""
+  
+  
+        if (msg['codigo'] < 300){
+          var lista_datos = msg['lista_pokemon'];
+          var datos = []
+  
+          for(i=0; i < lista_datos.length; i++){
+            // Cojo los datos del pokemon
+            datos = lista_datos[i].split(',')
+            id = datos[0].split(":")[1]
+            nombre = datos[1].split(":")[1]
+            aux_img = datos[2].split(":")
+            img = ""
+            for(j=1; j<aux_img.length; j++){
+              img += aux_img[j]
+              if (j < aux_img.length-1)
+                img+=":"
+            }
+            type = datos[3].split(":")[1]
+            height = datos[4].split(":")[1]
+            weight = datos[5].split(":")[1]
+
+  
+  
+            // Imprimo el html con la info
+            informacion = ""
+            
+            informacion += "<div>"
+            informacion += "<h4>" + nombre +"</h4>"
+            informacion += '<div class="d-flex flex-row flex-shrink-0">'
+            informacion += '<img src="'+ img + '" width="128" height="128" class="rounded-circle me-2">'
+            informacion += "<ul>"
+            informacion += "<li>Id: "+id+"</li><li>Tipo:"+type+"</li><li>Altura:"+height+"</li><li>Peso: "+weight+"</li>"
+            informacion += "</ul>"
+            informacion += "</div>"
+            informacion += ' <a  class="btn btn btn-dark text-center" href="modificar_pokemon/'+id+'">Modificar pokemon</a>'
+            informacion += '<a  class="btn btn btn-dark text-center" href="borrar_pokemon/'+id+'">Borrar pokemon</a>'
+            informacion += '<a  class="btn btn btn-dark text-center" href="obtener_pokemon/'+id+'">Detalles pokemon</a>'
+            informacion += "</div>"
+            document.getElementById("lista").innerHTML += informacion
+          }
+      
+        }
+      }
+    })
+  }
+
+  
 }
 
 
