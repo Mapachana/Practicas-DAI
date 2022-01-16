@@ -42,6 +42,21 @@ Practica 6
 @app.route('/crear_pokemon')
 def crear_pokemon():
     argumentos = {}
+    argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
 
     return render_template('crear_pokemon.html', **argumentos)
 
@@ -50,6 +65,21 @@ def crear_pokemon():
 def modificar_pokemon(id):
     id = int(float(id))
     argumentos = {}
+    argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
 
     db = modelo_pokemon.DBPokemon()
     argumentos['pokemon'] = db.get_pokemon(id)
@@ -61,6 +91,21 @@ def modificar_pokemon(id):
 def borrar_pokemon(id):
     id = int(float(id))
     argumentos = {}
+    argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
 
     db = modelo_pokemon.DBPokemon()
     argumentos['pokemon'] = db.get_pokemon(id)
@@ -73,6 +118,21 @@ def obtener_pokemon(id):
     id = int(float(id))
     argumentos = {}
     argumentos['id'] = id
+    argumentos['error'] = ""
+    db = modelo.Database()
+
+    if 'username' in session:
+        argumentos['username'] = session['username']
+
+        datos_usuario = db.get_user(session['username'])
+        argumentos['name'] = datos_usuario['name']
+    else:
+        argumentos['username'] = ''
+
+    if 'ultimas_paginas' in session:
+        argumentos['ultimaspaginas'] = session['ultimas_paginas']
+    else:
+        argumentos['ultimaspaginas'] = []
 
     return render_template('obtener_pokemon.html', **argumentos)
 
