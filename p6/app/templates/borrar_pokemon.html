@@ -6,10 +6,10 @@
 
 Se va a borrar el pokemon con las siguientes características:
 <form>
-  <label>Id</label><br>
-  <input type="text" name="id" id="id" value="{{pokemon['id']}}" readonly><br>
-  <label>Name</label><br>
-  <input type="text" name="name" id="name" value="{{pokemon['name']}}" readonly><br>
+  <label hidden>Id</label><br>
+  <input type="text" name="id" id="id" value="{{pokemon['id']}}" readonly hidden><br>
+  <label hidden>Name</label><br>
+  <input type="text" name="name" id="name" value="{{pokemon['name']}}" readonly hidden><br>
   <input type="button" onclick="borrar()" value="Aceptar">
 </form>
 
