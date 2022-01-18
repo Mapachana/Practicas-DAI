@@ -151,8 +151,7 @@ def get_pokemon_nombre(nombre):
         for i in range(0, len(aux)):
             resultado += campos[i] + ":" + str(aux[i]) + ","
         lista_pokemon.append((resultado))
-        print("AQUIIIIIIIIII", flush=True)
-        print(resultado, flush=True)
+
 
     if lista_pokemon != []:
         res = {'estado': "OK", 'codigo' : 200}
@@ -366,13 +365,15 @@ def get_pokemon(id):
     db = modelo_pokemon.DBPokemon()
     poke = db.get_pokemon(id)
 
-    campos = ['id', 'name', 'img', 'type', 'height', 'weight']
-    aux = [value for key, value in poke.items() if key in campos]
-    resultado = ""
-    for i in range(0, len(aux)):
-        resultado += campos[i] + ":" + str(aux[i]) + ","
+    if (poke != None):
+        campos = ['id', 'name', 'img', 'type', 'height', 'weight']
+        aux = [value for key, value in poke.items() if key in campos]
+        resultado = ""
+        for i in range(0, len(aux)):
+            resultado += campos[i] + ":" + str(aux[i]) + ","
     
-    if poke != "None":
+
+    if poke != None:
         res = {'estado': "OK", 'codigo' : 200}
         res['pokemon'] = resultado
         return jsonify(res)

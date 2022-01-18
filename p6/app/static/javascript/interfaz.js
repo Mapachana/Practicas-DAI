@@ -17,16 +17,21 @@ function modificar(){
     "egg": $("#egg").val(),
   }
 
-  $.ajax({
-    type: "PUT",
-    url: "/pokemon/"+pokemon["id"],
-    dataType: "json",
-    data: JSON.stringify(pokemon),
-    success: function(msg){
-      alert(msg['estado'])
-    }
-  })
-  console.log("/pokemon/"+pokemon["id"])
+  if (!isNaN(pokemon['id'])){
+    $.ajax({
+      type: "PUT",
+      url: "/pokemon/"+pokemon["id"],
+      dataType: "json",
+      data: JSON.stringify(pokemon),
+      success: function(msg){
+        alert(msg['estado'])
+      }
+    })
+  }
+  else{
+    alert("No se encuentra el pokemon introducido")
+  }
+
 }
 
 function crear(){
@@ -39,7 +44,7 @@ function crear(){
     "candy": $("#candy").val(),
     "egg": $("#egg").val(),
   }
-  console.log(pokemon)
+
 
   $.ajax({
     type: "POST",
@@ -57,21 +62,27 @@ function borrar(){
     "id": parseInt($("#id").val()),
   }
 
-  $.ajax({
-    type: "DELETE",
-    url: "/pokemon/"+pokemon['id'],
-    dataType: "json",
-    data: JSON.stringify(pokemon),
-    success: function(msg){
-      alert(msg['estado'])
-    }
-  })
+  if (!isNaN(pokemon['id'])){
+    $.ajax({
+      type: "DELETE",
+      url: "/pokemon/"+pokemon['id'],
+      dataType: "json",
+      data: JSON.stringify(pokemon),
+      success: function(msg){
+        alert(msg['estado'])
+      }
+    })
+  }
+  else{
+    alert("No se encuentra el pokemon introducido")
+  }
 }
 
 function obtener(){
   pokemon = {
     "id": parseInt($("#id").val()),
   }
+
 
   $.ajax({
     type: "POST",
@@ -98,9 +109,9 @@ function obtener(){
         type = datos[3].split(":")[1]
         height = datos[4].split(":")[1]
         weight = datos[5].split(":")[1]
-        console.log(datos)
+        
 
-          document.getElementById("informacion").innerHTML = "<ul><li>Id: "+id+"</li><li>Tipo:"+type+"</li><li>Altura:"+height+"</li><li>Peso: "+weight+"</li></ul>"
+        document.getElementById("informacion").innerHTML = "<ul><li>Id: "+id+"</li><li>Tipo:"+type+"</li><li>Altura:"+height+"</li><li>Peso: "+weight+"</li></ul>"
         
       }
     }
